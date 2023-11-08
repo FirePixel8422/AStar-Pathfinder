@@ -6,8 +6,10 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class EnemyAI : MonoBehaviour
 {
+    public bool pause = false;
+
     private GridManager grid;
-    private Pathfinding pf;
+    public Pathfinding pf;
 
     public LayerMask[] walkableLayers;
     public float[] movementPenalty;
@@ -19,11 +21,18 @@ public class EnemyAI : MonoBehaviour
     private void Start()
     {
         grid = FindObjectOfType<GridManager>();
-        pf = FindObjectOfType<Pathfinding>();
+        if(pf == null)
+        {
+            pf = FindObjectOfType<Pathfinding>();
+        }
     }
 
     private void Update()
     {
+        if(pause == true)
+        {
+            return;
+        }
         if (grid.recalculated == true)
         {
             grid.recalculated = false;
@@ -58,15 +67,10 @@ public class EnemyAI : MonoBehaviour
     }
     void OnDrawGizmos()
     {
-        // Your gizmo drawing thing goes here if required...
-
-#if UNITY_EDITOR
-        // Ensure continuous Update calls.
-        if (!Application.isPlaying)
+        if (!Application.isPlaying && pause == false)
         {
             UnityEditor.EditorApplication.QueuePlayerLoopUpdate();
             UnityEditor.SceneView.RepaintAll();
         }
-#endif
     }
 }

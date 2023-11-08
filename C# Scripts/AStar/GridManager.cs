@@ -9,6 +9,8 @@ public class GridManager : MonoBehaviour
     public LayerMask unwalkableLayer;
     public Vector3 gridSize;
 
+    public Color gizmoColor = Color.black; 
+
     public Node[,] grid;
     public bool recalculated;
 
@@ -32,7 +34,7 @@ public class GridManager : MonoBehaviour
         foreach (TerrainType region in walkableRegions)
         {
             walkableLayers.value |= region.terrainLayer.value;
-            walkableRegionsDictionairy.Add((int)Mathf.Log(region.terrainLayer.value, 2), region.terrainPenalty);
+            walkableRegionsDictionairy.Add((int)Mathf.Log(region.terrainLayer.value, 2), region.terrainPenaltyMultiplier);
         }
         CreateGrid();
     }
@@ -104,7 +106,13 @@ public class GridManager : MonoBehaviour
     public class TerrainType
     {
         public LayerMask terrainLayer;
-        public int terrainPenalty;
+        public int terrainPenaltyMultiplier;
+        public enum NodeType
+        {
+            Grass,
+            Rock
+        }
+        public NodeType nodeType;
     }
 
     public List<Node> path = new List<Node>();
@@ -122,7 +130,7 @@ public class GridManager : MonoBehaviour
                 {
                     if (path.Contains(node))
                     {
-                        Gizmos.color = Color.black;
+                        Gizmos.color = gizmoColor;
                     }
                 }
                 Gizmos.DrawCube(node.worldPos, Vector3.one * (nodeSize * 0.9f));
