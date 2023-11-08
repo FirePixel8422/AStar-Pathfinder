@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-[ExecuteInEditMode]
+//[ExecuteInEditMode]
 public class GridManager : MonoBehaviour
 {
     public LayerMask unwalkableLayer;
@@ -38,6 +38,13 @@ public class GridManager : MonoBehaviour
         }
         CreateGrid();
     }
+    public int MaxSize
+    {
+        get
+        {
+            return gridSizeX * gridSizeZ;
+        }
+    }
 
     public void CreateGrid()
     {
@@ -63,7 +70,7 @@ public class GridManager : MonoBehaviour
                     }
                 }
 
-                grid[x, z] = new Node(walkable, worldPoint, x, z, movementPenalty);
+                grid[x, z] = new Node(walkable, worldPoint, x, z, movementPenalty, Mathf.RoundToInt(worldPoint.y));
             }
         }
     }

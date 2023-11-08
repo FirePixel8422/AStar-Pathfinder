@@ -1,10 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
 using UnityEngine;
 
-[ExecuteInEditMode]
+//[ExecuteInEditMode]
 public class Pathfinding : MonoBehaviour
 {
     public GridManager grid;
@@ -19,38 +18,38 @@ public class Pathfinding : MonoBehaviour
     }
     private void Update()
     {
-        if(Vector3.Distance(oldTargetPos, target.position) > targetMoveDistanceForPathUpdate || (Vector3.Distance(seeker.position, target.position) < targetMoveDistanceForPathUpdate * 2 && Vector3.Distance(oldTargetPos, target.position) > 0.01f))
+        /*if(Vector3.Distance(oldTargetPos, target.position) > targetMoveDistanceForPathUpdate || (Vector3.Distance(seeker.position, target.position) < targetMoveDistanceForPathUpdate * 2 && Vector3.Distance(oldTargetPos, target.position) > 0.01f))
+        {
+            FindPath(seeker.position, target.position);
+        }*/
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             FindPath(seeker.position, target.position);
         }
     }
     public void FindPath(Vector3 startPos, Vector3 targetPos)
     {
+        Stopwatch sw = new Stopwatch();
+        sw.Start();
         oldTargetPos = targetPos;
         Node startNode = grid.NodeFromWorldPoint(startPos);
         Node targetNode = grid.NodeFromWorldPoint(targetPos);
 
-        List<Node> openNodes = new List<Node>();
+        Heap<Node> openNodes = new Heap<Node>(grid.MaxSize);
         HashSet<Node> closedNodes = new HashSet<Node>();
 
         openNodes.Add(startNode);
         while(openNodes.Count > 0)
         {
-            Node currentNode = openNodes[0];
-            for(int i = 1; i < openNodes.Count; i++)
-            {
-                if (openNodes[i].fCost < currentNode.fCost || (openNodes[i].fCost == currentNode.fCost && openNodes[i].hCost < currentNode.hCost))
-                {
-                    currentNode = openNodes[i];
-                }
-            }
-            openNodes.Remove(currentNode);
+            Node currentNode = openNodes.RemoveFirst();
             closedNodes.Add(currentNode);
 
             if(currentNode == targetNode)
             {
                 RetracePath(startNode, targetNode);
                 grid.recalculated = true;
+                sw.Stop();
+                print("Path Found " + sw.ElapsedMilliseconds + " ms");
                 return;
             }
             foreach (Node neigbour in grid.GetNeigbours(currentNode))
