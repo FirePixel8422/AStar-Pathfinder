@@ -3,40 +3,37 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-//[ExecuteInEditMode]
-public class EnemyAI : MonoBehaviour
+[ExecuteInEditMode]
+public class Agent : MonoBehaviour
 {
-    public bool pause = false;
-
-    private GridManager grid;
-    public Pathfinding pf;
+    private Pathfinding pf;
+    private Agent agent;
 
     public LayerMask[] walkableLayers;
     public float[] movementPenalty;
 
+    public Transform target;
+    private Vector3 oldTargetPos;
+
     public float moveSpeed = 6;
     public float distToStopMoving = 2;
-    public int nodeIndex;
 
     private void Start()
     {
-        grid = FindObjectOfType<GridManager>();
-        if(pf == null)
-        {
-            pf = FindObjectOfType<Pathfinding>();
-        }
+        pf = FindObjectOfType<Pathfinding>();
+        agent = this;
     }
 
     private void Update()
     {
-        if(pause == true)
+        if(target == null)
         {
             return;
         }
-        if (grid.recalculated == true)
+        if (Vector3.Distance(oldTargetPos, target.position) > pf.targetMoveDistanceForPathUpdate || (Vector3.Distance(transform.position, target.position) < pf.targetMoveDistanceForPathUpdate * 2 && Vector3.Distance(oldTargetPos, target.position) > 0.01f))
         {
-            grid.recalculated = false;
-            nodeIndex = 0;
+            pf.FindPath(transform.position, target.position, agent);
+            oldTargetPos = target.position;
         }
         int walkableLayerIndex = -1;
         for (int i = 0; i < walkableLayers.Length; i++)
@@ -47,27 +44,29 @@ public class EnemyAI : MonoBehaviour
                 break;
             }
         }
-        float _moveSpeed = 0;
+        float _moveSpeed = moveSpeed;
         if (walkableLayerIndex != -1)
         {
             _moveSpeed = moveSpeed * movementPenalty[walkableLayerIndex] / 100;
         }
 
-        if (grid.path != null && grid.path.Count != 0 && Vector3.Distance(pf.target.position, transform.position) > distToStopMoving)
+        if (path != null && path.Count != 0 && Vector3.Distance(target.position, transform.position) > distToStopMoving)
         {
-            Vector3 targetPos = grid.path[nodeIndex].worldPos; 
+            Vector3 targetPos = path[0].worldPos; 
             Vector3 newPos = Vector3.MoveTowards(transform.position, targetPos, _moveSpeed * Time.deltaTime);
             transform.position = new Vector3(newPos.x, transform.position.y, newPos.z);
 
-            if(Vector3.Distance(transform.position, targetPos) < grid.nodeSize && nodeIndex + 1 < grid.path.Count)
+            if(Vector3.Distance(transform.position, targetPos) < pf.grid.nodeSize * 1.25f && path.Count > 0)
             {
-                nodeIndex += 1;
+                path.RemoveAt(0);
             }
         }
     }
-    void OnDrawGizmos()
+    public List<Node> path = new List<Node>();
+
+    private void OnDrawGizmos()
     {
-        if (!Application.isPlaying && pause == false)
+        if (!Application.isPlaying)
         {
             UnityEditor.EditorApplication.QueuePlayerLoopUpdate();
             UnityEditor.SceneView.RepaintAll();

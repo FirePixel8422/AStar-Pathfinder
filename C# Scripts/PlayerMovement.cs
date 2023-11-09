@@ -47,7 +47,7 @@ public class PlayerMovement : MonoBehaviour
                 break;
             }
         }
-        float _moveSpeed = 0;
+        float _moveSpeed = moveSpeed;
         if (walkableLayerIndex != -1)
         {
             _moveSpeed = moveSpeed * movementPenalty[walkableLayerIndex] / 100;

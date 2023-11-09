@@ -1,23 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
-using UnityEngine.UIElements;
 
-//[ExecuteInEditMode]
+[ExecuteInEditMode]
 public class GridManager : MonoBehaviour
 {
     public LayerMask unwalkableLayer;
     public Vector3 gridSize;
 
+    public Agent[] agents;
     public Color gizmoColor = Color.black; 
 
     public Node[,] grid;
-    public bool recalculated;
 
     [Range(0.1f, 5)]
     public float nodeSize;
     [HideInInspector]
     public float halfNodeSize;
+
     public TerrainType[] walkableRegions;
     private LayerMask walkableLayers;
     private Dictionary<int, int> walkableRegionsDictionairy = new Dictionary<int, int>();
@@ -26,8 +27,9 @@ public class GridManager : MonoBehaviour
     public int gridSizeX, gridSizeZ;
 
 
-    private void Start()
+    public void Init()
     {
+        agents = FindObjectsOfType<Agent>();
         halfNodeSize = nodeSize / 2;
         gridSizeX = Mathf.RoundToInt(gridSize.x / nodeSize);
         gridSizeZ = Mathf.RoundToInt(gridSize.z / nodeSize);
@@ -70,7 +72,7 @@ public class GridManager : MonoBehaviour
                     }
                 }
 
-                grid[x, z] = new Node(walkable, worldPoint, x, z, movementPenalty, Mathf.RoundToInt(worldPoint.y));
+                grid[x, z] = new Node(walkable, worldPoint, x, z, movementPenalty);
             }
         }
     }
@@ -114,28 +116,27 @@ public class GridManager : MonoBehaviour
     {
         public LayerMask terrainLayer;
         public int terrainPenaltyMultiplier;
-        public enum NodeType
-        {
-            Grass,
-            Rock
-        }
-        public NodeType nodeType;
     }
-
-    public List<Node> path = new List<Node>();
-
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireCube(transform.position, new Vector3(gridSize.x, 1, gridSize.z));
 
-        if(grid != null)
+        if (grid != null)
         {
-            foreach(Node node in grid)
+            List<Node> combinedNodes = new List<Node>();
+            for (int i = 0; i < agents.Length; i++)
+            {
+                for (int i2 = 0; i2 < agents[i].path.Count; i2++)
+                {
+                    combinedNodes.Add(agents[i].path[i2]);
+                }
+            }
+            foreach (Node node in combinedNodes)
             {
                 Gizmos.color = new Color(0, 0, 0, 0);
-                if(path != null)
+                if (combinedNodes != null)
                 {
-                    if (path.Contains(node))
+                    if (combinedNodes.Contains(node))
                     {
                         Gizmos.color = gizmoColor;
                     }

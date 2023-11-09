@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
 
 public class Node : IHeapItem<Node>
 {
@@ -10,21 +9,19 @@ public class Node : IHeapItem<Node>
     public int gridX, gridZ;
     public int movementPenalty;
 
-    public int heightLevelRequired;
-
-    public Node parent;
-
     public int gCost;
     public int hCost;
+    public Node parent;
+    
+    private int heapIndex;
 
-    public Node(bool _walkable, Vector3 _worldPos, int _grixX, int _gridZ, int _movementPenalty, int _heightLevelRequired)
+    public Node(bool _walkable, Vector3 _worldPos, int _gridX, int _gridZ, int _movementPenalty)
     {
         walkable = _walkable;
         worldPos = _worldPos;
-        gridX = _grixX;
+        gridX = _gridX;
         gridZ = _gridZ;
         movementPenalty = _movementPenalty;
-        heightLevelRequired = _heightLevelRequired;
     }
 
     public int fCost
@@ -39,17 +36,18 @@ public class Node : IHeapItem<Node>
     {
         get
         {
-            return HeapIndex;
+            return heapIndex;
         }
         set
         {
-            HeapIndex = value;
+            heapIndex = value;
         }
     }
+
     public int CompareTo(Node nodeToCompare)
     {
         int compare = fCost.CompareTo(nodeToCompare.fCost);
-        if(compare == 0)
+        if (compare == 0)
         {
             compare = hCost.CompareTo(nodeToCompare.hCost);
         }
