@@ -4,7 +4,6 @@ using System;
 
 public class Heap<T> where T : IHeapItem<T>
 {
-
     T[] items;
     int currentItemCount;
 
@@ -77,13 +76,11 @@ public class Heap<T> where T : IHeapItem<T>
                 {
                     return;
                 }
-
             }
             else
             {
                 return;
             }
-
         }
     }
 

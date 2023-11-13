@@ -1,26 +1,28 @@
 using UnityEngine;
 using System.Collections;
+using Unity.Mathematics;
 
 public class Node : IHeapItem<Node>
 {
+    //public TextMesh text;
+
     public bool walkable;
     public Vector3 worldPos;
 
-    public int gridX, gridZ;
+    public int2 gridPos;
     public int movementPenalty;
 
     public int gCost;
     public int hCost;
-    public Node parent;
+    public int2 parentIndex;
     
     private int heapIndex;
 
-    public Node(bool _walkable, Vector3 _worldPos, int _gridX, int _gridZ, int _movementPenalty)
+    public Node(bool _walkable, Vector3 _worldPos, int2 _gridPos, int _movementPenalty)
     {
         walkable = _walkable;
         worldPos = _worldPos;
-        gridX = _gridX;
-        gridZ = _gridZ;
+        gridPos = _gridPos;
         movementPenalty = _movementPenalty;
     }
 

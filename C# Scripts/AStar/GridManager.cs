@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
+using Unity.Mathematics;
 using UnityEngine;
 
-[ExecuteInEditMode]
 public class GridManager : MonoBehaviour
 {
+    public Transform textObj;
+    public bool drawGizmos = true;
+
     public LayerMask unwalkableLayer;
     public Vector3 gridSize;
 
@@ -25,7 +27,7 @@ public class GridManager : MonoBehaviour
 
     [HideInInspector]
     public int gridSizeX, gridSizeZ;
-
+     
 
     public void Init()
     {
@@ -38,7 +40,7 @@ public class GridManager : MonoBehaviour
             walkableLayers.value |= region.terrainLayer.value;
             walkableRegionsDictionairy.Add((int)Mathf.Log(region.terrainLayer.value, 2), region.terrainPenaltyMultiplier);
         }
-        CreateGrid();
+        StartCoroutine(CreateGridAsync());
     }
     public int MaxSize
     {
@@ -48,31 +50,40 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    public void CreateGrid()
+    public IEnumerator CreateGridAsync()
     {
         grid = new Node[gridSizeX, gridSizeZ];
         Vector3 worldBottomLeft = transform.position - Vector3.right * gridSize.x / 2 - Vector3.forward * gridSize.z / 2;
 
+        Ray ray = new Ray();
+        RaycastHit hit;
+
         for (int x = 0; x < gridSizeX; x++)
         {
-            for (int z = 0; z < gridSizeZ; z++) 
+            for (int z = 0; z < gridSizeZ; z++)
             {
                 Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * nodeSize + halfNodeSize) + Vector3.forward * (z * nodeSize + halfNodeSize);
                 bool walkable = !Physics.CheckSphere(worldPoint, halfNodeSize, unwalkableLayer);
 
                 int movementPenalty = 0;
 
-                if(walkable == true)
+                if (walkable == false)
                 {
-                    Ray ray = new Ray(worldPoint + Vector3.up * 50, Vector3.down);
-                    RaycastHit hit;
-                    if(Physics.Raycast(ray, out hit, 100, walkableLayers))
-                    {
-                        walkableRegionsDictionairy.TryGetValue(hit.collider.gameObject.layer, out movementPenalty);
-                    }
+                    grid[x, z] = new Node(walkable, worldPoint, new int2(x, z), movementPenalty);
+                    continue;
                 }
 
-                grid[x, z] = new Node(walkable, worldPoint, x, z, movementPenalty);
+                ray.origin = worldPoint + Vector3.up * 50;
+                ray.direction = Vector3.down;
+
+                if (Physics.Raycast(ray, out hit, 100, walkableLayers))
+                {
+                    walkableRegionsDictionairy.TryGetValue(hit.collider.gameObject.layer, out movementPenalty);
+                }
+
+                grid[x, z] = new Node(walkable, worldPoint, new int2(x, z), movementPenalty);
+
+                yield return null;
             }
         }
     }
@@ -88,8 +99,8 @@ public class GridManager : MonoBehaviour
                 {
                     continue;
                 }
-                int checkX = node.gridX + x;
-                int checkZ = node.gridZ + z;
+                int checkX = node.gridPos.x + x;
+                int checkZ = node.gridPos.y + z;
 
                 if(checkX >= 0 && checkX < gridSizeX && checkZ >= 0 && checkZ < gridSizeZ) 
                 {
@@ -111,6 +122,7 @@ public class GridManager : MonoBehaviour
         return grid[x, z];
     }
 
+
     [System.Serializable]
     public class TerrainType
     {
@@ -121,7 +133,7 @@ public class GridManager : MonoBehaviour
     {
         Gizmos.DrawWireCube(transform.position, new Vector3(gridSize.x, 1, gridSize.z));
 
-        if (grid != null)
+        if (grid != null && drawGizmos == true)
         {
             List<Node> combinedNodes = new List<Node>();
             for (int i = 0; i < agents.Length; i++)
@@ -134,12 +146,9 @@ public class GridManager : MonoBehaviour
             foreach (Node node in combinedNodes)
             {
                 Gizmos.color = new Color(0, 0, 0, 0);
-                if (combinedNodes != null)
+                if (combinedNodes != null && combinedNodes.Contains(node))
                 {
-                    if (combinedNodes.Contains(node))
-                    {
-                        Gizmos.color = gizmoColor;
-                    }
+                    Gizmos.color = gizmoColor;
                 }
                 Gizmos.DrawCube(node.worldPos, Vector3.one * (nodeSize * 0.9f));
             }

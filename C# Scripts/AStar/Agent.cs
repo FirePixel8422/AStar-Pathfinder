@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-[ExecuteInEditMode]
 public class Agent : MonoBehaviour
 {
-    private Pathfinding pf;
+    private PathFinding pf;
     private Agent agent;
 
     public LayerMask[] walkableLayers;
@@ -20,17 +19,18 @@ public class Agent : MonoBehaviour
 
     private void Start()
     {
-        pf = FindObjectOfType<Pathfinding>();
+        pf = FindObjectOfType<PathFinding>();
         agent = this;
     }
 
     private void Update()
     {
-        if(target == null)
+        if(target == null || pf.grid == null || pf.grid.MaxSize == 0)
         {
             return;
         }
-        if (Vector3.Distance(oldTargetPos, target.position) > pf.targetMoveDistanceForPathUpdate || (Vector3.Distance(transform.position, target.position) < pf.targetMoveDistanceForPathUpdate * 2 && Vector3.Distance(oldTargetPos, target.position) > 0.01f))
+        float updateRange = pf.targetMoveDistanceForPathUpdate * Mathf.Clamp((Vector3.Distance(transform.position, target.position) - pf.ignoredBaseUpdateRange) / pf.rangeForFasterPathUpdateSpeed * pf.grid.nodeSize, 1, float.MaxValue);
+        if (Vector3.Distance(oldTargetPos, target.position) > updateRange || (Vector3.Distance(transform.position, target.position) < pf.targetMoveDistanceForPathUpdate * 2 && Vector3.Distance(oldTargetPos, target.position) > 0.01f))
         {
             pf.FindPath(transform.position, target.position, agent);
             oldTargetPos = target.position;
