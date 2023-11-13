@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Agent : MonoBehaviour
 {
-    private PathFinding pf;
+    private PathFinding1 pf;
     private Agent agent;
 
     public LayerMask[] walkableLayers;
@@ -19,21 +19,25 @@ public class Agent : MonoBehaviour
 
     private void Start()
     {
-        pf = FindObjectOfType<PathFinding>();
+        pf = FindObjectOfType<PathFinding1>();
         agent = this;
     }
 
     private void Update()
     {
-        if(target == null || pf.grid == null || pf.grid.MaxSize == 0)
+        if (target == null || pf.grid == null || pf.grid.MaxSize == 0)
         {
             return;
         }
-        float updateRange = pf.targetMoveDistanceForPathUpdate * Mathf.Clamp((Vector3.Distance(transform.position, target.position) - pf.ignoredBaseUpdateRange) / pf.rangeForFasterPathUpdateSpeed * pf.grid.nodeSize, 1, float.MaxValue);
+        /*float updateRange = pf.targetMoveDistanceForPathUpdate * Mathf.Clamp((Vector3.Distance(transform.position, target.position) - pf.ignoredBaseUpdateRange) / pf.rangeForFasterPathUpdateSpeed * pf.grid.nodeSize, 1, float.MaxValue);
         if (Vector3.Distance(oldTargetPos, target.position) > updateRange || (Vector3.Distance(transform.position, target.position) < pf.targetMoveDistanceForPathUpdate * 2 && Vector3.Distance(oldTargetPos, target.position) > 0.01f))
         {
             pf.FindPath(transform.position, target.position, agent);
             oldTargetPos = target.position;
+        }*/
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            pf.FindPath(transform.position, target.position, agent);
         }
         int walkableLayerIndex = -1;
         for (int i = 0; i < walkableLayers.Length; i++)
@@ -52,11 +56,11 @@ public class Agent : MonoBehaviour
 
         if (path != null && path.Count != 0 && Vector3.Distance(target.position, transform.position) > distToStopMoving)
         {
-            Vector3 targetPos = path[0].worldPos; 
+            Vector3 targetPos = path[0].worldPos;
             Vector3 newPos = Vector3.MoveTowards(transform.position, targetPos, _moveSpeed * Time.deltaTime);
             transform.position = new Vector3(newPos.x, transform.position.y, newPos.z);
 
-            if(Vector3.Distance(transform.position, targetPos) < pf.grid.nodeSize * 1.25f && path.Count > 0)
+            if (Vector3.Distance(transform.position, targetPos) < pf.grid.nodeSize * 1.25f && path.Count > 0)
             {
                 path.RemoveAt(0);
             }

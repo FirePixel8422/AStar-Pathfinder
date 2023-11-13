@@ -2,9 +2,9 @@ using UnityEngine;
 using System.Collections;
 using System;
 
-public class Heap<T> where T : IHeapItem<T>
+public class Heap<T> where T : IHeapItems<T>
 {
-    T[] items;
+    public T[] items;
     int currentItemCount;
 
     public Heap(int maxHeapSize)
@@ -114,7 +114,7 @@ public class Heap<T> where T : IHeapItem<T>
     }
 }
 
-public interface IHeapItem<T> : IComparable<T>
+public interface IHeapItems<T> : IComparable<T>
 {
     int HeapIndex
     {

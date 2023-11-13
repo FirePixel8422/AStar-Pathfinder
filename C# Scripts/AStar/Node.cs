@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using Unity.Mathematics;
 
-public class Node : IHeapItem<Node>
+public class Node : IHeapItems<Node>
 {
     //public TextMesh text;
 
@@ -15,7 +15,7 @@ public class Node : IHeapItem<Node>
     public int gCost;
     public int hCost;
     public int2 parentIndex;
-    
+
     private int heapIndex;
 
     public Node(bool _walkable, Vector3 _worldPos, int2 _gridPos, int _movementPenalty)

@@ -1,10 +1,10 @@
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using Unity.Mathematics;
 using UnityEngine;
+using System;
 
-public class PathFinding : MonoBehaviour
+public class PathFinding1 : MonoBehaviour
 {
     public GridManager grid;
 
@@ -27,6 +27,7 @@ public class PathFinding : MonoBehaviour
         Heap<Node> openNodes = new Heap<Node>(grid.MaxSize);
         HashSet<Node> closedNodes = new HashSet<Node>();
 
+        print(startNode);
 
         openNodes.Add(startNode);
         while (openNodes.Count > 0)

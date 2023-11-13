@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GridManager : MonoBehaviour
 {
-    public Transform textObj;
+    //public Transform textObj;
     public bool drawGizmos = true;
 
     public LayerMask unwalkableLayer;
@@ -16,7 +16,7 @@ public class GridManager : MonoBehaviour
 
     public Node[,] grid;
 
-    [Range(0.1f, 5)]
+    [Range(0.25f, 5)]
     public float nodeSize;
     [HideInInspector]
     public float halfNodeSize;
@@ -40,7 +40,7 @@ public class GridManager : MonoBehaviour
             walkableLayers.value |= region.terrainLayer.value;
             walkableRegionsDictionairy.Add((int)Mathf.Log(region.terrainLayer.value, 2), region.terrainPenaltyMultiplier);
         }
-        StartCoroutine(CreateGridAsync());
+        CreateGridAsync();
     }
     public int MaxSize
     {
@@ -50,7 +50,7 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    public IEnumerator CreateGridAsync()
+    public void CreateGridAsync()
     {
         grid = new Node[gridSizeX, gridSizeZ];
         Vector3 worldBottomLeft = transform.position - Vector3.right * gridSize.x / 2 - Vector3.forward * gridSize.z / 2;
@@ -82,8 +82,6 @@ public class GridManager : MonoBehaviour
                 }
 
                 grid[x, z] = new Node(walkable, worldPoint, new int2(x, z), movementPenalty);
-
-                yield return null;
             }
         }
     }
@@ -119,6 +117,10 @@ public class GridManager : MonoBehaviour
 
         int x = Mathf.RoundToInt((gridSizeX - 1) * percentX);
         int z = Mathf.RoundToInt((gridSizeZ - 1) * percentZ);
+        if (grid[x,z] == null)
+        {
+            print("HUAAAAAAAAAAAAA");
+        }
         return grid[x, z];
     }
 
