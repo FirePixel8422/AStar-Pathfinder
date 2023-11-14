@@ -20,10 +20,11 @@ public class PathFinding : MonoBehaviour
     }
     public void FindPath(Vector3 startPos, Vector3 targetPos, Agent agent)
     {
+        int slopeIndex = agent.slopeIndex;
         Stopwatch sw = new Stopwatch();
         sw.Start();
-        Node startNode = grid.NodeFromWorldPoint(startPos);
-        Node targetNode = grid.NodeFromWorldPoint(targetPos);
+        Node startNode = grid.NodeFromWorldPoint(startPos, slopeIndex);
+        Node targetNode = grid.NodeFromWorldPoint(targetPos, slopeIndex);
 
         Heap<Node> openNodes = new Heap<Node>(grid.MaxSize);
         HashSet<Node> closedNodes = new HashSet<Node>();
@@ -41,7 +42,7 @@ public class PathFinding : MonoBehaviour
                 print("Path Found in " + sw.ElapsedMilliseconds + " ms");
                 return;
             }
-            foreach (Node neigbour in grid.GetNeigbours(currentNode))
+            foreach (Node neigbour in grid.GetNeigbours(currentNode, slopeIndex))
             {
                 if (!neigbour.walkable || closedNodes.Contains(neigbour))
                 {
@@ -76,7 +77,7 @@ public class PathFinding : MonoBehaviour
         while (currentNode != startNode)
         {
             path.Add(currentNode);
-            currentNode = grid.grid[currentNode.parentIndex.x, currentNode.parentIndex.y];
+            currentNode = grid.grid[agent.slopeIndex][currentNode.parentIndex.x, currentNode.parentIndex.y];
         }
         path.Reverse();
 

@@ -11,10 +11,12 @@ public class GridManager : MonoBehaviour
     public LayerMask unwalkableLayer;
     public Vector3 gridSize;
 
-    public Agent[] agents;
-    public Color gizmoColor = Color.black; 
+    [Range(1,10)]
+    public int heightLayerAmount = 1;
+    public List<Node[,]> grid;
 
-    public Node[,] grid;
+    public Agent[] agents;
+    public Color gizmoColor = Color.black;
 
     [Range(0.25f, 5)]
     public float nodeSize;
@@ -52,41 +54,45 @@ public class GridManager : MonoBehaviour
 
     public void CreateGridAsync()
     {
-        grid = new Node[gridSizeX, gridSizeZ];
-        Vector3 worldBottomLeft = transform.position - Vector3.right * gridSize.x / 2 - Vector3.forward * gridSize.z / 2;
-
-        Ray ray = new Ray();
-        RaycastHit hit;
-
-        for (int x = 0; x < gridSizeX; x++)
+        grid = new List<Node[,]>(heightLayerAmount);
+        for (int i = 0; i < grid.Count; i++)
         {
-            for (int z = 0; z < gridSizeZ; z++)
+            grid[i] = new Node[gridSizeX, gridSizeZ];
+            Vector3 worldBottomLeft = transform.position - Vector3.right * gridSize.x / 2 - Vector3.forward * gridSize.z / 2;
+
+            Ray ray = new Ray();
+            RaycastHit hit;
+
+            for (int x = 0; x < gridSizeX; x++)
             {
-                Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * nodeSize + halfNodeSize) + Vector3.forward * (z * nodeSize + halfNodeSize);
-                bool walkable = !Physics.CheckSphere(worldPoint, halfNodeSize, unwalkableLayer);
-
-                int movementPenalty = 0;
-
-                if (walkable == false)
+                for (int z = 0; z < gridSizeZ; z++)
                 {
-                    grid[x, z] = new Node(walkable, worldPoint, new int2(x, z), movementPenalty);
-                    continue;
+                    Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * nodeSize + halfNodeSize) + Vector3.forward * (z * nodeSize + halfNodeSize);
+                    bool walkable = !Physics.CheckSphere(worldPoint, halfNodeSize, unwalkableLayer);
+
+                    int movementPenalty = 0;
+
+                    if (walkable == false)
+                    {
+                        grid[i][x, z] = new Node(walkable, worldPoint, new int2(x, z), movementPenalty);
+                        continue;
+                    }
+
+                    ray.origin = worldPoint + Vector3.up * 50;
+                    ray.direction = Vector3.down;
+
+                    if (Physics.Raycast(ray, out hit, 100, walkableLayers))
+                    {
+                        walkableRegionsDictionairy.TryGetValue(hit.collider.gameObject.layer, out movementPenalty);
+                    }
+
+                    grid[i][x, z] = new Node(walkable, worldPoint, new int2(x, z), movementPenalty);
                 }
-
-                ray.origin = worldPoint + Vector3.up * 50;
-                ray.direction = Vector3.down;
-
-                if (Physics.Raycast(ray, out hit, 100, walkableLayers))
-                {
-                    walkableRegionsDictionairy.TryGetValue(hit.collider.gameObject.layer, out movementPenalty);
-                }
-
-                grid[x, z] = new Node(walkable, worldPoint, new int2(x, z), movementPenalty);
             }
         }
     }
 
-    public List<Node> GetNeigbours(Node node)
+    public List<Node> GetNeigbours(Node node, int slopeIndex)
     {
         List<Node> neigbours = new List<Node>();
         for (int x = -1; x <= 1 ; x++)
@@ -102,13 +108,13 @@ public class GridManager : MonoBehaviour
 
                 if(checkX >= 0 && checkX < gridSizeX && checkZ >= 0 && checkZ < gridSizeZ) 
                 {
-                    neigbours.Add(grid[checkX, checkZ]);
+                    neigbours.Add(grid[slopeIndex][checkX, checkZ]);
                 }
             }
         }
         return neigbours;
     }
-    public Node NodeFromWorldPoint(Vector3 worldPosition)
+    public Node NodeFromWorldPoint(Vector3 worldPosition, int slopeIndex)
     {
         float percentX = (worldPosition.x + gridSize.x / 2) / gridSize.x;
         float percentZ = (worldPosition.z + gridSize.z / 2) / gridSize.z;
@@ -117,7 +123,7 @@ public class GridManager : MonoBehaviour
 
         int x = Mathf.RoundToInt((gridSizeX - 1) * percentX);
         int z = Mathf.RoundToInt((gridSizeZ - 1) * percentZ);
-        return grid[x, z];
+        return grid[slopeIndex][x, z];
     }
 
 
