@@ -117,10 +117,6 @@ public class GridManager : MonoBehaviour
 
         int x = Mathf.RoundToInt((gridSizeX - 1) * percentX);
         int z = Mathf.RoundToInt((gridSizeZ - 1) * percentZ);
-        if (grid[x,z] == null)
-        {
-            print("HUAAAAAAAAAAAAA");
-        }
         return grid[x, z];
     }
 

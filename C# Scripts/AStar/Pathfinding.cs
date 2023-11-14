@@ -4,8 +4,9 @@ using Unity.Mathematics;
 using UnityEngine;
 using System;
 
-public class PathFinding1 : MonoBehaviour
+public class PathFinding : MonoBehaviour
 {
+    [HideInInspector]
     public GridManager grid;
 
     public float targetMoveDistanceForPathUpdate = 1.5f;
@@ -26,8 +27,6 @@ public class PathFinding1 : MonoBehaviour
 
         Heap<Node> openNodes = new Heap<Node>(grid.MaxSize);
         HashSet<Node> closedNodes = new HashSet<Node>();
-
-        print(startNode);
 
         openNodes.Add(startNode);
         while (openNodes.Count > 0)

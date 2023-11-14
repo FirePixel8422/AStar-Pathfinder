@@ -5,11 +5,14 @@ using UnityEngine;
 
 public class Agent : MonoBehaviour
 {
-    private PathFinding1 pf;
+    private PathFinding pf;
+    private SlopeManager sm;
     private Agent agent;
 
     public LayerMask[] walkableLayers;
     public float[] movementPenalty;
+
+    public int slopeIndex;
 
     public Transform target;
     private Vector3 oldTargetPos;
@@ -19,25 +22,31 @@ public class Agent : MonoBehaviour
 
     private void Start()
     {
-        pf = FindObjectOfType<PathFinding1>();
+        pf = FindObjectOfType<PathFinding>();
+        sm = FindObjectOfType<SlopeManager>();
         agent = this;
     }
 
     private void Update()
     {
-        if (target == null || pf.grid == null || pf.grid.MaxSize == 0)
+        if (target == null)
         {
             return;
         }
-        /*float updateRange = pf.targetMoveDistanceForPathUpdate * Mathf.Clamp((Vector3.Distance(transform.position, target.position) - pf.ignoredBaseUpdateRange) / pf.rangeForFasterPathUpdateSpeed * pf.grid.nodeSize, 1, float.MaxValue);
+        float updateRange = pf.targetMoveDistanceForPathUpdate * Mathf.Clamp((Vector3.Distance(transform.position, target.position) - pf.ignoredBaseUpdateRange) / pf.rangeForFasterPathUpdateSpeed * pf.grid.nodeSize, 1, float.MaxValue);
         if (Vector3.Distance(oldTargetPos, target.position) > updateRange || (Vector3.Distance(transform.position, target.position) < pf.targetMoveDistanceForPathUpdate * 2 && Vector3.Distance(oldTargetPos, target.position) > 0.01f))
         {
-            pf.FindPath(transform.position, target.position, agent);
+            Vector3 targetPos = target.position;
+            if (sm.targetSlopeIndex > agent.slopeIndex)
+            {
+                targetPos = sm.slopes[agent.slopeIndex].slopeStart.position;
+            }
+            if (sm.targetSlopeIndex < agent.slopeIndex)
+            {
+                targetPos = sm.slopes[agent.slopeIndex].slopeEnd.position;
+            }
+            pf.FindPath(transform.position, targetPos, agent);
             oldTargetPos = target.position;
-        }*/
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            pf.FindPath(transform.position, target.position, agent);
         }
         int walkableLayerIndex = -1;
         for (int i = 0; i < walkableLayers.Length; i++)
@@ -64,6 +73,13 @@ public class Agent : MonoBehaviour
             {
                 path.RemoveAt(0);
             }
+        }
+    }
+    private void QueNextPathFindRequest(Vector3 targetPos)
+    {
+        if(Vector3.Distance(transform.position, targetPos) < pf.grid.nodeSize * 1.25f && path.Count == 0)
+        {
+            pf.FindPath(transform.position, targetPos, agent);
         }
     }
     public List<Node> path = new List<Node>();
