@@ -84,21 +84,21 @@ public class PathFinding : MonoBehaviour
         agent.path = path;
     }
 
-    /*private int GetDistance(int movPenaltyA, int movPenaltyB, int2 gridPosA, int2 gridPosB)
+    private int GetDistance(int movPenaltyA, int movPenaltyB, int2 gridPosA, int2 gridPosB)
     {
         int distX = Mathf.Abs(gridPosA.x - gridPosB.x);
         int distZ = Mathf.Abs(gridPosA.y - gridPosB.y);
 
         if (distX > distZ)
         {
-            return (14 + movPenaltyA / 10 * 14) * distZ + (10 + movPenaltyB) * (distX - distZ);
+            return (14 + movPenaltyA / 10 * 14) * distZ + (10 + movPenaltyA) * (distX - distZ);
         }
         else
         {
-            return (14 + movPenaltyB / 10 * 14) * distX + (10 + movPenaltyA) * (distZ - distX);
+            return (14 + movPenaltyA / 10 * 14) * distX + (10 + movPenaltyA) * (distZ - distX);
         }
-    }*/
-    private int GetDistance(int movPenaltyA, int movPenaltyB, int2 gridPosA, int2 gridPosB)
+    }
+    /*private int GetDistance(int movPenaltyA, int movPenaltyB, int2 gridPosA, int2 gridPosB)
     {
         int distX = Math.Abs(gridPosA.x - gridPosB.x);
         int distZ = Math.Abs(gridPosA.y - gridPosB.y);
@@ -113,5 +113,5 @@ public class PathFinding : MonoBehaviour
         int straightSteps = maxDist - minDist;
 
         return diagonalCost * diagonalSteps + straightCost * straightSteps + (movPenaltyA / 10) * diagonalCost * minDist;
-    }
+    }*/
 }

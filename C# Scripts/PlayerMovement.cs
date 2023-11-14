@@ -53,6 +53,6 @@ public class PlayerMovement : MonoBehaviour
             _moveSpeed = moveSpeed * movementPenalty[walkableLayerIndex] / 100;
         }
 
-        rb.velocity = -dir.normalized * _moveSpeed;
+        rb.velocity = - new Vector3(dir.x, transform.position.y, dir.z).normalized * _moveSpeed;
     }
 }

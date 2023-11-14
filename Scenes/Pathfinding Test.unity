@@ -213,7 +213,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -789,7 +789,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -1324,7 +1324,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be6aa8c82913ecb4e9790c1606cf1ea7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slopeIndex: 0
+  slopeIndex: 1
 --- !u!1 &1695893093
 GameObject:
   m_ObjectHideFlags: 0
@@ -1742,7 +1742,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   gridSize: {x: 100, y: 0, z: 100}
-  heightLayerAmount: 0
+  startHeightPerFloor: 00000000
   agents:
   - {fileID: 1226116522}
   gizmoColor: {r: 0, g: 0, b: 0, a: 0.2509804}
@@ -1804,11 +1804,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2236107742010083477, guid: 4bc0b0ab69a31bb449b240318a5180cb, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -12.91
+      value: 4.69
       objectReference: {fileID: 0}
     - target: {fileID: 2236107742010083477, guid: 4bc0b0ab69a31bb449b240318a5180cb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.3
+      value: 4.02
       objectReference: {fileID: 0}
     - target: {fileID: 2236107742010083477, guid: 4bc0b0ab69a31bb449b240318a5180cb, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1846,6 +1846,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 5316131707822100247, guid: 4bc0b0ab69a31bb449b240318a5180cb, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: f708e29ee1070634f8bd12ed4c0af37d, type: 2}
     - target: {fileID: 6255369772749808019, guid: 4bc0b0ab69a31bb449b240318a5180cb, type: 3}
       propertyPath: movementPenalty.Array.data[0]
       value: 15

@@ -11,8 +11,7 @@ public class GridManager : MonoBehaviour
     public LayerMask unwalkableLayer;
     public Vector3 gridSize;
 
-    [Range(1,10)]
-    public int heightLayerAmount = 1;
+    public int[] startHeightPerFloor;
     public List<Node[,]> grid;
 
     public Agent[] agents;
@@ -54,10 +53,11 @@ public class GridManager : MonoBehaviour
 
     public void CreateGridAsync()
     {
-        grid = new List<Node[,]>(heightLayerAmount);
-        for (int i = 0; i < grid.Count; i++)
+        grid = new List<Node[,]>(startHeightPerFloor.Length);
+
+        for (int i = 0; i < startHeightPerFloor.Length; i++)
         {
-            grid[i] = new Node[gridSizeX, gridSizeZ];
+            grid.Add(new Node[gridSizeX, gridSizeZ]);
             Vector3 worldBottomLeft = transform.position - Vector3.right * gridSize.x / 2 - Vector3.forward * gridSize.z / 2;
 
             Ray ray = new Ray();
