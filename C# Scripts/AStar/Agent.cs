@@ -36,7 +36,7 @@ public class Agent : MonoBehaviour
         Vector3 agentPos = new Vector3(transform.position.x, 0, transform.position.z);
         Vector3 targetPos = target.position;
 
-        float updateRange = pf.targetMoveDistanceForPathUpdate * Mathf.Clamp((Vector3.Distance(agentPos, target.position) - pf.ignoredBaseUpdateRange) / pf.rangeForFasterPathUpdateSpeed * pf.grid.nodeSize, 1, float.MaxValue);
+        float updateRange = pf.targetMoveDistanceForPathUpdate * Mathf.Clamp((Vector3.Distance(agentPos, target.position) - pf.ignoredBaseUpdateRange) / pf.rangeForFasterPathUpdateSpeed * pf.grid.gridFloors[slopeIndex].nodeSize, 1, float.MaxValue);
         if (Vector3.Distance(oldTargetPos, target.position) > updateRange || (Vector3.Distance(agentPos, target.position) < pf.targetMoveDistanceForPathUpdate * 2 && Vector3.Distance(oldTargetPos, target.position) > 0.01f))
         {
             if (sm.targetSlopeIndex > agent.slopeIndex)
@@ -71,7 +71,7 @@ public class Agent : MonoBehaviour
             Vector3 newPos = Vector3.MoveTowards(agentPos, pathTargetPos, _moveSpeed * Time.deltaTime);
             transform.position = new Vector3(newPos.x, transform.position.y, newPos.z);
 
-            if (Vector3.Distance(agentPos, pathTargetPos) < pf.grid.nodeSize * 1.25f && path.Count > 0)
+            if (Vector3.Distance(agentPos, pathTargetPos) < pf.grid.gridFloors[slopeIndex].nodeSize * 1.25f && path.Count > 0)
             {
                 path.RemoveAt(0);
             }

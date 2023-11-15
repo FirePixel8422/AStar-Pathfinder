@@ -26,7 +26,7 @@ public class PathFinding : MonoBehaviour
         Node startNode = grid.NodeFromWorldPoint(startPos, slopeIndex);
         Node targetNode = grid.NodeFromWorldPoint(targetPos, slopeIndex);
 
-        Heap<Node> openNodes = new Heap<Node>(grid.MaxSize);
+        Heap<Node> openNodes = new Heap<Node>(grid.gridFloors[slopeIndex].MaxSize);
         HashSet<Node> closedNodes = new HashSet<Node>();
 
         openNodes.Add(startNode);
@@ -77,7 +77,7 @@ public class PathFinding : MonoBehaviour
         while (currentNode != startNode)
         {
             path.Add(currentNode);
-            currentNode = grid.grid[agent.slopeIndex][currentNode.parentIndex.x, currentNode.parentIndex.y];
+            currentNode = grid.gridFloors[agent.slopeIndex].grid[currentNode.parentIndex.x, currentNode.parentIndex.y];
         }
         path.Reverse();
 

@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class SlopeManager : MonoBehaviour
 {
-    private TargetTracker target;
+    private TargetInfo target;
     public Slope[] slopes;
 
     private void Start()
     {
-        target = FindObjectOfType<TargetTracker>();
+        target = FindObjectOfType<TargetInfo>();
     }
 
     public int targetSlopeIndex

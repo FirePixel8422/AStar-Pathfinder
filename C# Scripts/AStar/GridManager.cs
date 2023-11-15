@@ -1,63 +1,53 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Mathematics;
 using UnityEngine;
 
 public class GridManager : MonoBehaviour
 {
     //public Transform textObj;
-    public bool drawGizmos = true;
 
     public LayerMask unwalkableLayer;
-    public Vector3 gridSize;
-
-    public int[] startHeightPerFloor;
-    public List<Node[,]> grid;
-
-    public Agent[] agents;
-    public Color gizmoColor = Color.black;
-
-    [Range(0.25f, 5)]
-    public float nodeSize;
-    [HideInInspector]
-    public float halfNodeSize;
-
     public TerrainType[] walkableRegions;
+    public GridFloor[] gridFloors;
+
+    private Agent[] agents;
+
     private LayerMask walkableLayers;
     private Dictionary<int, int> walkableRegionsDictionairy = new Dictionary<int, int>();
 
-    [HideInInspector]
-    public int gridSizeX, gridSizeZ;
-     
+
 
     public void Init()
     {
         agents = FindObjectsOfType<Agent>();
-        halfNodeSize = nodeSize / 2;
-        gridSizeX = Mathf.RoundToInt(gridSize.x / nodeSize);
-        gridSizeZ = Mathf.RoundToInt(gridSize.z / nodeSize);
         foreach (TerrainType region in walkableRegions)
         {
             walkableLayers.value |= region.terrainLayer.value;
-            walkableRegionsDictionairy.Add((int)Mathf.Log(region.terrainLayer.value, 2), region.terrainPenaltyMultiplier);
+            walkableRegionsDictionairy.Add((int)Mathf.Log(region.terrainLayer.value, 2), region.terrainPenalty);
         }
         CreateGridAsync();
-    }
-    public int MaxSize
-    {
-        get
-        {
-            return gridSizeX * gridSizeZ;
-        }
     }
 
     public void CreateGridAsync()
     {
-        grid = new List<Node[,]>(startHeightPerFloor.Length);
-
-        for (int i = 0; i < startHeightPerFloor.Length; i++)
+        for (int i = 0; i < gridFloors.Length; i++)
         {
-            grid.Add(new Node[gridSizeX, gridSizeZ]);
+            GridFloor gridFloor = gridFloors[i];
+
+            float nodeSize = gridFloor.nodeSize;
+            float halfNodeSize = nodeSize / 2;
+
+            Vector3 gridSize = gridFloor.gridSize;
+
+            gridFloor.gridSizeX = Mathf.RoundToInt(gridSize.x / nodeSize);
+            gridFloor.gridSizeZ = Mathf.RoundToInt(gridSize.z / nodeSize);
+
+            int gridSizeX = gridFloor.gridSizeX;
+            int gridSizeZ = gridFloor.gridSizeZ;
+
+            gridFloor.grid = new Node[gridSizeX, gridSizeZ];
             Vector3 worldBottomLeft = transform.position - Vector3.right * gridSize.x / 2 - Vector3.forward * gridSize.z / 2;
 
             Ray ray = new Ray();
@@ -74,11 +64,11 @@ public class GridManager : MonoBehaviour
 
                     if (walkable == false)
                     {
-                        grid[i][x, z] = new Node(walkable, worldPoint, new int2(x, z), movementPenalty);
+                        gridFloor.grid[x, z] = new Node(walkable, worldPoint, new int2(x, z), movementPenalty);
                         continue;
                     }
 
-                    ray.origin = worldPoint + Vector3.up * 50;
+                    ray.origin = new Vector3(worldPoint.x, worldPoint.y + gridFloor.floorHeight + 2, worldPoint.z);
                     ray.direction = Vector3.down;
 
                     if (Physics.Raycast(ray, out hit, 100, walkableLayers))
@@ -86,7 +76,7 @@ public class GridManager : MonoBehaviour
                         walkableRegionsDictionairy.TryGetValue(hit.collider.gameObject.layer, out movementPenalty);
                     }
 
-                    grid[i][x, z] = new Node(walkable, worldPoint, new int2(x, z), movementPenalty);
+                    gridFloor.grid[x, z] = new Node(walkable, worldPoint, new int2(x, z), movementPenalty);
                 }
             }
         }
@@ -106,9 +96,9 @@ public class GridManager : MonoBehaviour
                 int checkX = node.gridPos.x + x;
                 int checkZ = node.gridPos.y + z;
 
-                if(checkX >= 0 && checkX < gridSizeX && checkZ >= 0 && checkZ < gridSizeZ) 
+                if(checkX >= 0 && checkX < gridFloors[slopeIndex].gridSizeX && checkZ >= 0 && checkZ < gridFloors[slopeIndex].gridSizeZ) 
                 {
-                    neigbours.Add(grid[slopeIndex][checkX, checkZ]);
+                    neigbours.Add(gridFloors[slopeIndex].grid[checkX, checkZ]);
                 }
             }
         }
@@ -116,14 +106,14 @@ public class GridManager : MonoBehaviour
     }
     public Node NodeFromWorldPoint(Vector3 worldPosition, int slopeIndex)
     {
-        float percentX = (worldPosition.x + gridSize.x / 2) / gridSize.x;
-        float percentZ = (worldPosition.z + gridSize.z / 2) / gridSize.z;
+        float percentX = (worldPosition.x + gridFloors[slopeIndex].gridSize.x / 2) / gridFloors[slopeIndex].gridSize.x;
+        float percentZ = (worldPosition.z + gridFloors[slopeIndex].gridSize.z / 2) / gridFloors[slopeIndex].gridSize.z;
         percentX = Mathf.Clamp01(percentX);
         percentZ = Mathf.Clamp01(percentZ);
 
-        int x = Mathf.RoundToInt((gridSizeX - 1) * percentX);
-        int z = Mathf.RoundToInt((gridSizeZ - 1) * percentZ);
-        return grid[slopeIndex][x, z];
+        int x = Mathf.RoundToInt((gridFloors[slopeIndex].gridSizeX - 1) * percentX);
+        int z = Mathf.RoundToInt((gridFloors[slopeIndex].gridSizeZ - 1) * percentZ);
+        return gridFloors[slopeIndex].grid[x, z];
     }
 
 
@@ -131,30 +121,58 @@ public class GridManager : MonoBehaviour
     public class TerrainType
     {
         public LayerMask terrainLayer;
-        public int terrainPenaltyMultiplier;
+        public int terrainPenalty;
     }
+    [System.Serializable]
+    public class GridFloor
+    {
+        public Node[,] grid;
+
+        public bool drawGizmos = true;
+        public Color gizmoColor = Color.black;
+
+        public Vector3 gridSize;
+        public int floorHeight;
+
+        [Range(0.25f, 5)]
+        public float nodeSize;
+
+        [HideInInspector]
+        public int gridSizeX, gridSizeZ;
+
+        public int MaxSize
+        {
+            get
+            {
+                return gridSizeX * gridSizeZ;
+            }
+        }
+    }
+
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireCube(transform.position, new Vector3(gridSize.x, 1, gridSize.z));
-
-        if (grid != null && drawGizmos == true)
+        for (int i0 = 0; i0 < gridFloors.Length; i0++)
         {
-            List<Node> combinedNodes = new List<Node>();
-            for (int i = 0; i < agents.Length; i++)
+            Gizmos.DrawWireCube(transform.position, new Vector3(gridFloors[i0].gridSize.x, 0.75f + gridFloors[i0].floorHeight, gridFloors[i0].gridSize.z));
+            if (gridFloors[i0].grid != null && gridFloors[i0].drawGizmos == true)
             {
-                for (int i2 = 0; i2 < agents[i].path.Count; i2++)
+                List<Node> combinedNodes = new List<Node>();
+                for (int i = 0; i < agents.Length; i++)
                 {
-                    combinedNodes.Add(agents[i].path[i2]);
+                    for (int i2 = 0; i2 < agents[i].path.Count; i2++)
+                    {
+                        combinedNodes.Add(agents[i].path[i2]);
+                    }
                 }
-            }
-            foreach (Node node in combinedNodes)
-            {
-                Gizmos.color = new Color(0, 0, 0, 0);
-                if (combinedNodes != null && combinedNodes.Contains(node))
+                foreach (Node node in combinedNodes)
                 {
-                    Gizmos.color = gizmoColor;
+                    Gizmos.color = new Color(0, 0, 0, 0);
+                    if (combinedNodes != null && combinedNodes.Contains(node))
+                    {
+                        Gizmos.color = gridFloors[i0].gizmoColor;
+                    }
+                    Gizmos.DrawCube(node.worldPos, Vector3.one * (gridFloors[i0].nodeSize * 0.9f));
                 }
-                Gizmos.DrawCube(node.worldPos, Vector3.one * (nodeSize * 0.9f));
             }
         }
     }

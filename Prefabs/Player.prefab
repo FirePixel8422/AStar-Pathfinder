@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 2236107742010083477}
   - component: {fileID: 7441395565053793010}
   - component: {fileID: 5036916299438180153}
-  - component: {fileID: 5316131707822100247}
+  - component: {fileID: 8540091786004206445}
   - component: {fileID: 3980720699478744883}
   - component: {fileID: 6255369772749808019}
+  - component: {fileID: 5880887981815180367}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -43,7 +44,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3805881774984467374}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &5036916299438180153
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -86,8 +87,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &5316131707822100247
-BoxCollider:
+--- !u!136 &8540091786004206445
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -104,8 +105,10 @@ BoxCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &3980720699478744883
 Rigidbody:
@@ -154,8 +157,21 @@ MonoBehaviour:
   - serializedVersion: 2
     m_Bits: 256
   movementPenalty:
-  - 12
+  - 15
   - 100
   - 50
   moveSpeed: 10
   degree: 0
+--- !u!114 &5880887981815180367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3805881774984467374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be6aa8c82913ecb4e9790c1606cf1ea7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slopeIndex: 0

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -192,7 +192,7 @@ Transform:
   m_GameObject: {fileID: 322369825}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4.99, y: 0.69, z: 19.55}
+  m_LocalPosition: {x: 5.540741, y: 0.69, z: 19.5}
   m_LocalScale: {x: 10, y: 4, z: 10}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -766,8 +766,8 @@ Transform:
   m_GameObject: {fileID: 799170271}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.13052616, w: 0.9914449}
-  m_LocalPosition: {x: -4.2900004, y: -0.52, z: 19.55}
-  m_LocalScale: {x: 10, y: 4, z: 10}
+  m_LocalPosition: {x: -3.83, y: -0.54735243, z: 19.5}
+  m_LocalScale: {x: 10.25, y: 4, z: 10}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1860598344}
@@ -975,7 +975,7 @@ Transform:
   m_GameObject: {fileID: 1128082943}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.489, y: 0.56, z: 0}
+  m_LocalPosition: {x: 0.477, y: 0.55, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1191,17 +1191,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1187295693}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &1226116522 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2223387263319024814, guid: 963d4260b22509a41ac1957a1cff2fa0, type: 3}
-  m_PrefabInstance: {fileID: 4534983895477255994}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 734f7d996ab11584e8297d6ec18d7adb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1299029247
 GameObject:
   m_ObjectHideFlags: 0
@@ -1307,24 +1296,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1299029247}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1620654928 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3805881774984467374, guid: 4bc0b0ab69a31bb449b240318a5180cb, type: 3}
-  m_PrefabInstance: {fileID: 6751648888322800965}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1620654934
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1620654928}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be6aa8c82913ecb4e9790c1606cf1ea7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  slopeIndex: 1
 --- !u!1 &1695893093
 GameObject:
   m_ObjectHideFlags: 0
@@ -1353,8 +1324,8 @@ Transform:
   m_GameObject: {fileID: 1695893093}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -13.09, y: -0, z: 20.6818}
-  m_LocalScale: {x: 7.8098035, y: 0.15, z: 50.27288}
+  m_LocalPosition: {x: -13.09, y: 0, z: 19.9125}
+  m_LocalScale: {x: 7.8098035, y: 0.15, z: 48.73453}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 41525959}
@@ -1670,7 +1641,7 @@ PrefabInstance:
       objectReference: {fileID: 732047310}
     - target: {fileID: 2223387263319024814, guid: 963d4260b22509a41ac1957a1cff2fa0, type: 3}
       propertyPath: moveSpeed
-      value: 13
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2223387263319024814, guid: 963d4260b22509a41ac1957a1cff2fa0, type: 3}
       propertyPath: movementPenalty.Array.data[0]
@@ -1737,32 +1708,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a69d67c5efd53c444a3669ffc8ea6cf6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawGizmos: 1
   unwalkableLayer:
     serializedVersion: 2
     m_Bits: 64
-  gridSize: {x: 100, y: 0, z: 100}
-  startHeightPerFloor: 00000000
-  agents:
-  - {fileID: 1226116522}
-  gizmoColor: {r: 0, g: 0, b: 0, a: 0.2509804}
-  nodeSize: 0.5
-  halfNodeSize: 0.25
   walkableRegions:
   - terrainLayer:
       serializedVersion: 2
       m_Bits: 128
-    terrainPenaltyMultiplier: 2
+    terrainPenalty: 0
   - terrainLayer:
       serializedVersion: 2
       m_Bits: 256
-    terrainPenaltyMultiplier: 20
+    terrainPenalty: 10
   - terrainLayer:
       serializedVersion: 2
       m_Bits: 512
-    terrainPenaltyMultiplier: 45
-  gridSizeX: 200
-  gridSizeZ: 200
+    terrainPenalty: 30
+  gridFloors:
+  - drawGizmos: 1
+    gizmoColor: {r: 0, g: 0, b: 0, a: 1}
+    gridSize: {x: 100, y: 0, z: 100}
+    floorHeight: 0
+    nodeSize: 0.5
+    gridSizeX: 0
+    gridSizeZ: 0
 --- !u!114 &4539129187071232146
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1804,11 +1773,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2236107742010083477, guid: 4bc0b0ab69a31bb449b240318a5180cb, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.69
+      value: -11.1
       objectReference: {fileID: 0}
     - target: {fileID: 2236107742010083477, guid: 4bc0b0ab69a31bb449b240318a5180cb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.02
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2236107742010083477, guid: 4bc0b0ab69a31bb449b240318a5180cb, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1846,21 +1815,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 5316131707822100247, guid: 4bc0b0ab69a31bb449b240318a5180cb, type: 3}
+    - target: {fileID: 8540091786004206445, guid: 4bc0b0ab69a31bb449b240318a5180cb, type: 3}
       propertyPath: m_Material
       value: 
       objectReference: {fileID: 13400000, guid: f708e29ee1070634f8bd12ed4c0af37d, type: 2}
-    - target: {fileID: 6255369772749808019, guid: 4bc0b0ab69a31bb449b240318a5180cb, type: 3}
-      propertyPath: movementPenalty.Array.data[0]
-      value: 15
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3805881774984467374, guid: 4bc0b0ab69a31bb449b240318a5180cb, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1620654934}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4bc0b0ab69a31bb449b240318a5180cb, type: 3}
 --- !u!23 &7266796744004144406
 MeshRenderer:
