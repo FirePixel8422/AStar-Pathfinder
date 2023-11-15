@@ -132,7 +132,7 @@ public class GridManager : MonoBehaviour
         public Color gizmoColor = Color.black;
 
         public Vector3 gridSize;
-        public int floorHeight;
+        public float floorHeight;
 
         [Range(0.25f, 5)]
         public float nodeSize;
@@ -153,7 +153,7 @@ public class GridManager : MonoBehaviour
     {
         for (int i0 = 0; i0 < gridFloors.Length; i0++)
         {
-            Gizmos.DrawWireCube(transform.position, new Vector3(gridFloors[i0].gridSize.x, 0.75f + gridFloors[i0].floorHeight, gridFloors[i0].gridSize.z));
+            Gizmos.DrawWireCube(new Vector3(transform.position.x, transform.position.y + gridFloors[i0].floorHeight, transform.position.z), new Vector3(gridFloors[i0].gridSize.x, 0.5f, gridFloors[i0].gridSize.z));
             if (gridFloors[i0].grid != null && gridFloors[i0].drawGizmos == true)
             {
                 List<Node> combinedNodes = new List<Node>();

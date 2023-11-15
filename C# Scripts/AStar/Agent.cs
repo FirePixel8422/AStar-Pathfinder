@@ -14,6 +14,9 @@ public class Agent : MonoBehaviour
 
     public int slopeIndex;
 
+    private int oldTargetSlopeIndex;
+    private bool goingToSlope;
+
     public Transform target;
     private Vector3 oldTargetPos;
 
@@ -37,15 +40,19 @@ public class Agent : MonoBehaviour
         Vector3 targetPos = target.position;
 
         float updateRange = pf.targetMoveDistanceForPathUpdate * Mathf.Clamp((Vector3.Distance(agentPos, target.position) - pf.ignoredBaseUpdateRange) / pf.rangeForFasterPathUpdateSpeed * pf.grid.gridFloors[slopeIndex].nodeSize, 1, float.MaxValue);
-        if (Vector3.Distance(oldTargetPos, target.position) > updateRange || (Vector3.Distance(agentPos, target.position) < pf.targetMoveDistanceForPathUpdate * 2 && Vector3.Distance(oldTargetPos, target.position) > 0.01f))
+        if ((Vector3.Distance(oldTargetPos, target.position) > updateRange || (Vector3.Distance(agentPos, target.position) < pf.targetMoveDistanceForPathUpdate * 2 && Vector3.Distance(oldTargetPos, target.position) > 0.01f)) && oldTargetSlopeIndex != sm.targetSlopeIndex || goingToSlope == false)
         {
             if (sm.targetSlopeIndex > agent.slopeIndex)
             {
                 targetPos = sm.slopes[agent.slopeIndex].slopeStart.position;
+                oldTargetSlopeIndex = sm.targetSlopeIndex;
+                goingToSlope = true;
             }
             if (sm.targetSlopeIndex < agent.slopeIndex)
             {
                 targetPos = sm.slopes[agent.slopeIndex].slopeEnd.position;
+                oldTargetSlopeIndex = sm.targetSlopeIndex;
+                goingToSlope = true;
             }
             pf.FindPath(agentPos, targetPos, agent);
             oldTargetPos = target.position;
@@ -74,6 +81,10 @@ public class Agent : MonoBehaviour
             if (Vector3.Distance(agentPos, pathTargetPos) < pf.grid.gridFloors[slopeIndex].nodeSize * 1.25f && path.Count > 0)
             {
                 path.RemoveAt(0);
+            }
+            if(path.Count == 0 && goingToSlope == true)
+            {
+                goingToSlope = false;
             }
         }
     }
