@@ -153,6 +153,7 @@ public class GridManager : MonoBehaviour
     {
         for (int i0 = 0; i0 < gridFloors.Length; i0++)
         {
+            Gizmos.color = Color.white;
             Gizmos.DrawWireCube(new Vector3(transform.position.x, transform.position.y + gridFloors[i0].floorHeight, transform.position.z), new Vector3(gridFloors[i0].gridSize.x, 0.5f, gridFloors[i0].gridSize.z));
             if (gridFloors[i0].grid != null && gridFloors[i0].drawGizmos == true)
             {

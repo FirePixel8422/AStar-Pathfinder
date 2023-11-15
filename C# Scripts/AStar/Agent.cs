@@ -7,7 +7,6 @@ public class Agent : MonoBehaviour
 {
     private PathFinding pf;
     private SlopeManager sm;
-    private Agent agent;
 
     public LayerMask[] walkableLayers;
     public float[] movementPenalty;
@@ -15,7 +14,7 @@ public class Agent : MonoBehaviour
     public int slopeIndex;
 
     private int oldTargetSlopeIndex;
-    private bool goingToSlope;
+    private int goingToSlope;
 
     public Transform target;
     private Vector3 oldTargetPos;
@@ -27,7 +26,6 @@ public class Agent : MonoBehaviour
     {
         pf = FindObjectOfType<PathFinding>();
         sm = FindObjectOfType<SlopeManager>();
-        agent = this;
     }
 
     private void Update()
@@ -40,22 +38,25 @@ public class Agent : MonoBehaviour
         Vector3 targetPos = target.position;
 
         float updateRange = pf.targetMoveDistanceForPathUpdate * Mathf.Clamp((Vector3.Distance(agentPos, target.position) - pf.ignoredBaseUpdateRange) / pf.rangeForFasterPathUpdateSpeed * pf.grid.gridFloors[slopeIndex].nodeSize, 1, float.MaxValue);
-        if ((Vector3.Distance(oldTargetPos, target.position) > updateRange || (Vector3.Distance(agentPos, target.position) < pf.targetMoveDistanceForPathUpdate * 2 && Vector3.Distance(oldTargetPos, target.position) > 0.01f)) && oldTargetSlopeIndex != sm.targetSlopeIndex || goingToSlope == false)
+        if (((Vector3.Distance(oldTargetPos, target.position) > updateRange || (Vector3.Distance(agentPos, target.position) < pf.targetMoveDistanceForPathUpdate * 2 && Vector3.Distance(oldTargetPos, target.position) > 0.01f)) && oldTargetSlopeIndex == sm.targetSlopeIndex) || goingToSlope != 0 || oldTargetSlopeIndex != sm.targetSlopeIndex)
         {
-            if (sm.targetSlopeIndex > agent.slopeIndex)
+            if (sm.targetSlopeIndex > slopeIndex)
             {
-                targetPos = sm.slopes[agent.slopeIndex].slopeStart.position;
+                targetPos = sm.slopes[slopeIndex].slopeStart.position;
                 oldTargetSlopeIndex = sm.targetSlopeIndex;
-                goingToSlope = true;
+                goingToSlope = 1;
             }
-            if (sm.targetSlopeIndex < agent.slopeIndex)
+            else if (sm.targetSlopeIndex < slopeIndex)
             {
-                targetPos = sm.slopes[agent.slopeIndex].slopeEnd.position;
+                targetPos = sm.slopes[slopeIndex - 1].slopeEnd.position;
                 oldTargetSlopeIndex = sm.targetSlopeIndex;
-                goingToSlope = true;
+                goingToSlope = - 1;
             }
-            pf.FindPath(agentPos, targetPos, agent);
-            oldTargetPos = target.position;
+            else
+            {
+                oldTargetPos = target.position;
+            }
+            pf.FindPath(agentPos, targetPos, this);
         }
         int walkableLayerIndex = -1;
         for (int i = 0; i < walkableLayers.Length; i++)
@@ -72,7 +73,7 @@ public class Agent : MonoBehaviour
             _moveSpeed = moveSpeed * movementPenalty[walkableLayerIndex] / 100;
         }
 
-        if (path.Count != 0 && Vector3.Distance(targetPos, agentPos) > distToStopMoving)
+        if (path.Count != 0 && Vector3.Distance(target.position, agentPos) > distToStopMoving)
         {
             Vector3 pathTargetPos = new Vector3(path[0].worldPos.x, 0, path[0].worldPos.z);
             Vector3 newPos = Vector3.MoveTowards(agentPos, pathTargetPos, _moveSpeed * Time.deltaTime);
@@ -82,9 +83,10 @@ public class Agent : MonoBehaviour
             {
                 path.RemoveAt(0);
             }
-            if(path.Count == 0 && goingToSlope == true)
+            if(path.Count == 0 && goingToSlope != 0)
             {
-                goingToSlope = false;
+                slopeIndex += goingToSlope;
+                goingToSlope = 0;
             }
         }
     }
