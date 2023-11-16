@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using Unity.Mathematics;
 using UnityEngine;
-using System;
 
 public class PathFinding : MonoBehaviour
 {
@@ -29,6 +28,21 @@ public class PathFinding : MonoBehaviour
         Heap<Node> openNodes = new Heap<Node>(grid.gridFloors[slopeIndex].MaxSize);
         HashSet<Node> closedNodes = new HashSet<Node>();
 
+
+        bool useExtraStatsFromAgent = false;
+        int additionalMovPenalty = 0;
+
+        int agentTerrainModifierLayerId = 0;
+        int agentTerrainModifier = 0;
+
+        if (agent.extraPenalty.Length != 0)
+        {
+            useExtraStatsFromAgent = true;
+            agentTerrainModifierLayerId = agent.terrainLayer[0];
+            agentTerrainModifier = agent.extraPenalty[0];
+        }
+
+
         openNodes.Add(startNode);
         while (openNodes.Count > 0)
         {
@@ -48,18 +62,20 @@ public class PathFinding : MonoBehaviour
                 {
                     continue;
                 }
-                int additionalMovPenalty = 0;
-
-                if(agent.terrainLayer.Count > 0)
+                if (useExtraStatsFromAgent == true)
                 {
-                    int index = agent.terrainLayer.FindIndex(terrainLayer => terrainLayer == neigbour.layerId);
-                    additionalMovPenalty = index != -1 ? agent.extraPenalty.Length != 0 ? agent.extraPenalty[index] : 0 : 0;
-
-                    index = agent.terrainLayer.FindIndex(terrainLayer => terrainLayer == currentNode.layerId);
-                    additionalMovPenalty = index != -1 ? agent.extraPenalty.Length != 0 ? agent.extraPenalty[index] : 0 : 0;
-
-                    index = agent.terrainLayer.FindIndex(terrainLayer => terrainLayer == targetNode.layerId);
-                    additionalMovPenalty = index != -1 ? agent.extraPenalty.Length != 0 ? agent.extraPenalty[index] : 0 : 0;
+                    if (agentTerrainModifierLayerId == neigbour.layerId)
+                    {
+                        additionalMovPenalty = agentTerrainModifier;
+                    }
+                    if (agentTerrainModifierLayerId == currentNode.layerId)
+                    {
+                        additionalMovPenalty = agentTerrainModifier;
+                    }
+                    if (agentTerrainModifierLayerId == targetNode.layerId)
+                    {
+                        additionalMovPenalty = agentTerrainModifier;
+                    }
                 }
 
                 int neigbourMovPenalty = neigbour.movementPenalty + additionalMovPenalty;

@@ -1,0 +1,122 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2463503085670824304
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8160592736782927426}
+  - component: {fileID: 2485574979458585344}
+  - component: {fileID: 2410551818727777313}
+  - component: {fileID: 6166124569379967553}
+  m_Layer: 0
+  m_Name: Grid + Astar CORE
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8160592736782927426
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2463503085670824304}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2485574979458585344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2463503085670824304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a69d67c5efd53c444a3669ffc8ea6cf6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unwalkableLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  walkableRegions:
+  - terrainLayer:
+      serializedVersion: 2
+      m_Bits: 128
+    terrainPenalty: 0
+  - terrainLayer:
+      serializedVersion: 2
+      m_Bits: 16
+    terrainPenalty: 15
+  - terrainLayer:
+      serializedVersion: 2
+      m_Bits: 256
+    terrainPenalty: 10
+  - terrainLayer:
+      serializedVersion: 2
+      m_Bits: 512
+    terrainPenalty: 30
+  gridFloors:
+  - drawGizmos: 1
+    gizmoColor: {r: 0, g: 0, b: 0, a: 1}
+    gridSize: {x: 100, y: 0, z: 100}
+    floorHeight: 0
+    nodeSize: 0.5
+    gridSizeX: 0
+    gridSizeZ: 0
+  - drawGizmos: 1
+    gizmoColor: {r: 0, g: 0, b: 0, a: 1}
+    gridSize: {x: 80, y: 0, z: 80}
+    floorHeight: 2.6
+    nodeSize: 0.5
+    gridSizeX: 0
+    gridSizeZ: 0
+  - drawGizmos: 1
+    gizmoColor: {r: 0, g: 0, b: 0, a: 1}
+    gridSize: {x: 80, y: 0, z: 80}
+    floorHeight: 8.69
+    nodeSize: 0.5
+    gridSizeX: 0
+    gridSizeZ: 0
+--- !u!114 &2410551818727777313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2463503085670824304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74b90cc8d22e40c40b48b77bbfafeab8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grid: {fileID: 2485574979458585344}
+  targetMoveDistanceForPathUpdate: 1
+  ignoredBaseUpdateRange: 10
+  rangeForFasterPathUpdateSpeed: 6
+--- !u!114 &6166124569379967553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2463503085670824304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d1e85a68c8cb8447af3369c528550e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slopes:
+  - slopeStart: {fileID: 0}
+    slopeEnd: {fileID: 0}
+    heightLevel: 0

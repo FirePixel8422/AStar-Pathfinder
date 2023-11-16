@@ -155,7 +155,7 @@ MonoBehaviour:
   - terrainLayer:
       serializedVersion: 2
       m_Bits: 16
-    terrainPenalty: 80
+    terrainPenalty: 50
   - terrainLayer:
       serializedVersion: 2
       m_Bits: 128
@@ -163,9 +163,9 @@ MonoBehaviour:
   - terrainLayer:
       serializedVersion: 2
       m_Bits: 256
-    terrainPenalty: 50
+    terrainPenalty: 80
   target: {fileID: 0}
-  moveSpeed: 0
+  moveSpeed: 4.5
   distToStopMoving: 2
 --- !u!114 &2847047930017798727
 MonoBehaviour:
@@ -180,7 +180,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   core: {fileID: 0}
-  terrainLayerMasks: []
-  terrainLayer: 
-  extraPenalty: 
+  terrainLayerMasks:
+  - serializedVersion: 2
+    m_Bits: 256
+  terrainLayer: 00000000
+  extraPenalty: 28000000
   slopeIndex: 0

@@ -1,20 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
-using static GridManager;
 
 public class AgentCore : MonoBehaviour
 {
     private PathFinding pf;
     private SlopeManager sm;
-    private AgentData agent;
+    [HideInInspector]
+    public AgentData agent;
 
     [Header("Percentage speed reduction \n85 = -85% speed on selected terrain")]
     public TerrainType[] walkableRegions;
 
     private int oldTargetSlopeIndex;
-    private int goingToSlope;
+    public int goingToSlope;
 
     public TargetInfo target;
     private Vector3 oldTargetPos;
@@ -36,12 +35,17 @@ public class AgentCore : MonoBehaviour
             return;
         }
         int slopeIndex = agent.slopeIndex;
+        if (pf.grid.gridFloors.Length <= slopeIndex)
+        {
+            Debug.LogError("slopeIndex bigger then amount of gridFloors in grid");
+            return;
+        }
         int targetSlopeIndex = target.slopeIndex;
         Vector3 agentPos = new Vector3(transform.position.x, 0, transform.position.z);
         Vector3 targetPos = new Vector3(target.transform.position.x, 0, target.transform.position.z);
 
         float updateRange = pf.targetMoveDistanceForPathUpdate * Mathf.Clamp((Vector3.Distance(agentPos, targetPos) - pf.ignoredBaseUpdateRange) / pf.rangeForFasterPathUpdateSpeed * pf.grid.gridFloors[slopeIndex].nodeSize, 1, float.MaxValue);
-        if (((Vector3.Distance(oldTargetPos, targetPos) > updateRange || (Vector3.Distance(agentPos, targetPos) < pf.targetMoveDistanceForPathUpdate * 2 && Vector3.Distance(oldTargetPos, targetPos) > 0.01f)) && slopeIndex == target.slopeIndex) || (oldTargetSlopeIndex != target.slopeIndex&& goingToSlope == 0))
+        if (((Vector3.Distance(oldTargetPos, targetPos) > updateRange || (Vector3.Distance(agentPos, targetPos) < pf.targetMoveDistanceForPathUpdate * 2 && Vector3.Distance(oldTargetPos, targetPos) > 0.01f)) && slopeIndex == targetSlopeIndex) || (oldTargetSlopeIndex != targetSlopeIndex && goingToSlope == 0))
         {
             if (targetSlopeIndex > slopeIndex)
             {
@@ -89,11 +93,11 @@ public class AgentCore : MonoBehaviour
                 path.RemoveAt(0);
                 if (path.Count == 0 && goingToSlope != 0)
                 {
-                    slopeIndex += goingToSlope;
+                    agent.slopeIndex += goingToSlope;
                     goingToSlope = 0;
                     if(slopeIndex == targetSlopeIndex)
                     {
-                        pf.FindPath(agentPos, targetPos, agent);
+                        pf.FindPath(agentPos, target.transform.position, agent);
                     }
                 }
             }

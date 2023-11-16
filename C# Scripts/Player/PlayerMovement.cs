@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -54,6 +53,6 @@ public class PlayerMovement : MonoBehaviour
             _moveSpeed = moveSpeed * (100 - walkableRegions[terrainIndex].terrainPenalty) / 100;
         }
 
-        rb.velocity = -new Vector3(dir.x, transform.position.y, dir.z) * _moveSpeed;
+        rb.velocity = -new Vector3(dir.x, 0, dir.z) * _moveSpeed;
     }
 }

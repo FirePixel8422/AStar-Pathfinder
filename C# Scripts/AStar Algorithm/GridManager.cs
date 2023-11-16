@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -9,6 +8,8 @@ public class GridManager : MonoBehaviour
     //public Transform textObj;
 
     public LayerMask unwalkableLayer;
+    public int unwalkableLayerId;
+
     public TerrainType[] walkableRegions;
     public GridFloor[] gridFloors;
 
@@ -18,10 +19,11 @@ public class GridManager : MonoBehaviour
     private Dictionary<int, int> walkableRegionsDictionairy = new Dictionary<int, int>();
 
 
-
     public void Init()
     {
         agents = FindObjectsOfType<AgentCore>();
+        unwalkableLayerId = Mathf.RoundToInt(Mathf.Log(unwalkableLayer.value, 2));
+
         foreach (TerrainType region in walkableRegions)
         {
             walkableLayers.value |= region.terrainLayer.value;
@@ -32,6 +34,7 @@ public class GridManager : MonoBehaviour
 
     public void CreateGridAsync()
     {
+        int movementPenalty = 0;
         for (int i = 0; i < gridFloors.Length; i++)
         {
             GridFloor gridFloor = gridFloors[i];
@@ -50,35 +53,38 @@ public class GridManager : MonoBehaviour
             gridFloor.grid = new Node[gridSizeX, gridSizeZ];
             Vector3 worldBottomLeft = transform.position - Vector3.right * gridSize.x / 2 - Vector3.forward * gridSize.z / 2;
 
-            Ray ray = new Ray();
-            RaycastHit hit;
 
             for (int x = 0; x < gridSizeX; x++)
             {
                 for (int z = 0; z < gridSizeZ; z++)
                 {
                     Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * nodeSize + halfNodeSize) + Vector3.forward * (z * nodeSize + halfNodeSize);
-                    bool walkable = !Physics.CheckSphere(worldPoint, halfNodeSize, unwalkableLayer);
 
-                    int movementPenalty = 0;
-
-                    if (walkable == false)
+                    int layerId = -1;
+                    var data = Physics.OverlapSphere(new Vector3(worldPoint.x, worldPoint.y + gridFloor.floorHeight + 0.15f, worldPoint.z), nodeSize / 2, walkableLayers + unwalkableLayer, QueryTriggerInteraction.Collide);
+                    if (data.Length != 0)
                     {
-                        gridFloor.grid[x, z] = new Node(walkable, worldPoint, new int2(x, z), movementPenalty, 0);
-                        continue;
+                        float highestYPos = data[0].transform.position.y;
+                        layerId = data[0].gameObject.layer;
+                        for (int i2 = 0; i2 < data.Length; i2++)
+                        {
+                            if(highestYPos < data[i2].transform.position.y)
+                            {
+                                highestYPos = data[i2].transform.position.y;
+                                layerId = data[i2].gameObject.layer;
+                            }
+                        }
                     }
 
-                    ray.origin = new Vector3(worldPoint.x, worldPoint.y + gridFloor.floorHeight + 2, worldPoint.z);
-                    ray.direction = Vector3.down;
-
-                    int layerId = 0;
-                    if (Physics.Raycast(ray, out hit, 100, walkableLayers))
+                    if (layerId == unwalkableLayerId || layerId == -1)
                     {
-                        layerId = hit.collider.gameObject.layer;
+                        gridFloor.grid[x, z] = new Node(false, worldPoint, new int2(x, z), movementPenalty, 0);
+                    }
+                    else
+                    {
                         walkableRegionsDictionairy.TryGetValue(layerId, out movementPenalty);
+                        gridFloor.grid[x, z] = new Node(true, worldPoint, new int2(x, z), layerId, movementPenalty);
                     }
-
-                    gridFloor.grid[x, z] = new Node(walkable, worldPoint, new int2(x, z), layerId, movementPenalty);
                 }
             }
         }
@@ -87,18 +93,18 @@ public class GridManager : MonoBehaviour
     public List<Node> GetNeigbours(Node node, int slopeIndex)
     {
         List<Node> neigbours = new List<Node>();
-        for (int x = -1; x <= 1 ; x++)
+        for (int x = -1; x <= 1; x++)
         {
             for (int z = -1; z <= 1; z++)
             {
-                if(x == 0 && z == 0)
+                if (x == 0 && z == 0)
                 {
                     continue;
                 }
                 int checkX = node.gridPos.x + x;
                 int checkZ = node.gridPos.y + z;
 
-                if(checkX >= 0 && checkX < gridFloors[slopeIndex].gridSizeX && checkZ >= 0 && checkZ < gridFloors[slopeIndex].gridSizeZ) 
+                if (checkX >= 0 && checkX < gridFloors[slopeIndex].gridSizeX && checkZ >= 0 && checkZ < gridFloors[slopeIndex].gridSizeZ)
                 {
                     neigbours.Add(gridFloors[slopeIndex].grid[checkX, checkZ]);
                 }
@@ -150,24 +156,26 @@ public class GridManager : MonoBehaviour
         {
             Gizmos.color = Color.white;
             Gizmos.DrawWireCube(new Vector3(transform.position.x, transform.position.y + gridFloors[i0].floorHeight, transform.position.z), new Vector3(gridFloors[i0].gridSize.x, 0.5f, gridFloors[i0].gridSize.z));
-            if (gridFloors[i0].grid != null && gridFloors[i0].drawGizmos == true)
+        }
+        if (Application.isPlaying == false)
+        {
+            return;
+        }
+        for (int i = 0; i < agents.Length; i++)
+        {
+            int slopeIndex = agents[i].agent.slopeIndex;
+            if (gridFloors.Length <= slopeIndex)
             {
-                List<Node> combinedNodes = new List<Node>();
-                for (int i = 0; i < agents.Length; i++)
+                Debug.LogError("Cant draw gizmos, index is out of bounds \nAgent.slopeIndex > gridFloors.Length");
+                return;
+            }
+            if (gridFloors.Length != 0 && gridFloors[slopeIndex].drawGizmos == true)
+            {
+                Vector3 height = new Vector3(0, gridFloors[slopeIndex].floorHeight, 0);
+                Gizmos.color = gridFloors[slopeIndex].gizmoColor;
+                for (int i2 = 0; i2 < agents[i].path.Count; i2++)
                 {
-                    for (int i2 = 0; i2 < agents[i].path.Count; i2++)
-                    {
-                        combinedNodes.Add(agents[i].path[i2]);
-                    }
-                }
-                foreach (Node node in combinedNodes)
-                {
-                    Gizmos.color = new Color(0, 0, 0, 0);
-                    if (combinedNodes != null && combinedNodes.Contains(node))
-                    {
-                        Gizmos.color = gridFloors[i0].gizmoColor;
-                    }
-                    Gizmos.DrawCube(node.worldPos, Vector3.one * (gridFloors[i0].nodeSize * 0.9f));
+                    Gizmos.DrawCube(agents[i].path[i2].worldPos + height, Vector3.one * (gridFloors[slopeIndex].nodeSize * 0.9f));
                 }
             }
         }
