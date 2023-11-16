@@ -12,8 +12,9 @@ GameObject:
   - component: {fileID: 1948275573722426315}
   - component: {fileID: 8770946679937331880}
   - component: {fileID: 2811342400479496156}
-  - component: {fileID: 2223387263319024814}
   - component: {fileID: 2617112447303452502}
+  - component: {fileID: 2223387263319024814}
+  - component: {fileID: 2847047930017798727}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -107,33 +108,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2223387263319024814
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8260075918402167798}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 734f7d996ab11584e8297d6ec18d7adb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  walkableLayers:
-  - serializedVersion: 2
-    m_Bits: 512
-  - serializedVersion: 2
-    m_Bits: 128
-  - serializedVersion: 2
-    m_Bits: 256
-  movementPenalty:
-  - 12
-  - 100
-  - 50
-  target: {fileID: 0}
-  moveSpeed: 10
-  distToStopMoving: 2
-  targetMoveDistanceForPathUpdate: 1.5
 --- !u!54 &2617112447303452502
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -161,3 +135,52 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &2223387263319024814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8260075918402167798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 734f7d996ab11584e8297d6ec18d7adb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  walkableRegions:
+  - terrainLayer:
+      serializedVersion: 2
+      m_Bits: 512
+    terrainPenalty: 85
+  - terrainLayer:
+      serializedVersion: 2
+      m_Bits: 16
+    terrainPenalty: 80
+  - terrainLayer:
+      serializedVersion: 2
+      m_Bits: 128
+    terrainPenalty: 0
+  - terrainLayer:
+      serializedVersion: 2
+      m_Bits: 256
+    terrainPenalty: 50
+  target: {fileID: 0}
+  moveSpeed: 0
+  distToStopMoving: 2
+--- !u!114 &2847047930017798727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8260075918402167798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ba05ee58eb013547a33c53638fb9120, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  core: {fileID: 0}
+  terrainLayerMasks: []
+  terrainLayer: 
+  extraPenalty: 
+  slopeIndex: 0

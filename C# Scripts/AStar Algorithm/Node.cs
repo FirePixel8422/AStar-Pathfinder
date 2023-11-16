@@ -4,7 +4,7 @@ using Unity.Mathematics;
 
 public class Node : IHeapItems<Node>
 {
-    //public TextMesh text;
+    public int layerId;
 
     public bool walkable;
     public Vector3 worldPos;
@@ -18,11 +18,12 @@ public class Node : IHeapItems<Node>
 
     private int heapIndex;
 
-    public Node(bool _walkable, Vector3 _worldPos, int2 _gridPos, int _movementPenalty)
+    public Node(bool _walkable, Vector3 _worldPos, int2 _gridPos, int _layerId, int _movementPenalty)
     {
         walkable = _walkable;
         worldPos = _worldPos;
         gridPos = _gridPos;
+        layerId = _layerId;
         movementPenalty = _movementPenalty;
     }
 

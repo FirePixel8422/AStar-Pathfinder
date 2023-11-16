@@ -4,21 +4,9 @@ using UnityEngine;
 
 public class SlopeManager : MonoBehaviour
 {
-    private TargetInfo target;
     public Slope[] slopes;
 
-    private void Start()
-    {
-        target = FindObjectOfType<TargetInfo>();
-    }
 
-    public int targetSlopeIndex
-    {
-        get
-        {
-            return target.slopeIndex;
-        }
-    }
     [System.Serializable]
     public class Slope
     {

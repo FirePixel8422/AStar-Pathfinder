@@ -12,7 +12,7 @@ public class GridManager : MonoBehaviour
     public TerrainType[] walkableRegions;
     public GridFloor[] gridFloors;
 
-    private Agent[] agents;
+    private AgentCore[] agents;
 
     private LayerMask walkableLayers;
     private Dictionary<int, int> walkableRegionsDictionairy = new Dictionary<int, int>();
@@ -21,7 +21,7 @@ public class GridManager : MonoBehaviour
 
     public void Init()
     {
-        agents = FindObjectsOfType<Agent>();
+        agents = FindObjectsOfType<AgentCore>();
         foreach (TerrainType region in walkableRegions)
         {
             walkableLayers.value |= region.terrainLayer.value;
@@ -64,19 +64,21 @@ public class GridManager : MonoBehaviour
 
                     if (walkable == false)
                     {
-                        gridFloor.grid[x, z] = new Node(walkable, worldPoint, new int2(x, z), movementPenalty);
+                        gridFloor.grid[x, z] = new Node(walkable, worldPoint, new int2(x, z), movementPenalty, 0);
                         continue;
                     }
 
                     ray.origin = new Vector3(worldPoint.x, worldPoint.y + gridFloor.floorHeight + 2, worldPoint.z);
                     ray.direction = Vector3.down;
 
+                    int layerId = 0;
                     if (Physics.Raycast(ray, out hit, 100, walkableLayers))
                     {
-                        walkableRegionsDictionairy.TryGetValue(hit.collider.gameObject.layer, out movementPenalty);
+                        layerId = hit.collider.gameObject.layer;
+                        walkableRegionsDictionairy.TryGetValue(layerId, out movementPenalty);
                     }
 
-                    gridFloor.grid[x, z] = new Node(walkable, worldPoint, new int2(x, z), movementPenalty);
+                    gridFloor.grid[x, z] = new Node(walkable, worldPoint, new int2(x, z), layerId, movementPenalty);
                 }
             }
         }
@@ -116,13 +118,6 @@ public class GridManager : MonoBehaviour
         return gridFloors[slopeIndex].grid[x, z];
     }
 
-
-    [System.Serializable]
-    public class TerrainType
-    {
-        public LayerMask terrainLayer;
-        public int terrainPenalty;
-    }
     [System.Serializable]
     public class GridFloor
     {

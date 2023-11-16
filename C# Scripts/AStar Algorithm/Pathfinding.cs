@@ -18,7 +18,7 @@ public class PathFinding : MonoBehaviour
         grid = GetComponent<GridManager>();
         grid.Init();
     }
-    public void FindPath(Vector3 startPos, Vector3 targetPos, Agent agent)
+    public void FindPath(Vector3 startPos, Vector3 targetPos, AgentData agent)
     {
         int slopeIndex = agent.slopeIndex;
         Stopwatch sw = new Stopwatch();
@@ -48,18 +48,34 @@ public class PathFinding : MonoBehaviour
                 {
                     continue;
                 }
-                int neigbourMovPenalty = neigbour.movementPenalty;
+                int additionalMovPenalty = 0;
+
+                if(agent.terrainLayer.Count > 0)
+                {
+                    int index = agent.terrainLayer.FindIndex(terrainLayer => terrainLayer == neigbour.layerId);
+                    additionalMovPenalty = index != -1 ? agent.extraPenalty.Length != 0 ? agent.extraPenalty[index] : 0 : 0;
+
+                    index = agent.terrainLayer.FindIndex(terrainLayer => terrainLayer == currentNode.layerId);
+                    additionalMovPenalty = index != -1 ? agent.extraPenalty.Length != 0 ? agent.extraPenalty[index] : 0 : 0;
+
+                    index = agent.terrainLayer.FindIndex(terrainLayer => terrainLayer == targetNode.layerId);
+                    additionalMovPenalty = index != -1 ? agent.extraPenalty.Length != 0 ? agent.extraPenalty[index] : 0 : 0;
+                }
+
+                int neigbourMovPenalty = neigbour.movementPenalty + additionalMovPenalty;
+
                 int2 neigbourGridPos = neigbour.gridPos;
 
                 int2 currentNodeGridPos = currentNode.gridPos;
 
-                int neigbourDist = GetDistance(currentNode.movementPenalty, neigbourMovPenalty, currentNodeGridPos, neigbourGridPos);
+                int neigbourDist = GetDistance(currentNode.movementPenalty + additionalMovPenalty, neigbourMovPenalty, currentNodeGridPos, neigbourGridPos);
                 int newMovementCostToNeigbour = currentNode.gCost + neigbourDist + neigbourMovPenalty / 10 * neigbourDist;
 
                 if (newMovementCostToNeigbour < neigbour.gCost || !openNodes.Contains(neigbour))
                 {
                     neigbour.gCost = newMovementCostToNeigbour;
-                    neigbour.hCost = GetDistance(neigbourMovPenalty, targetNode.movementPenalty, neigbourGridPos, targetNode.gridPos);
+
+                    neigbour.hCost = GetDistance(neigbourMovPenalty, targetNode.movementPenalty + additionalMovPenalty, neigbourGridPos, targetNode.gridPos);
                     neigbour.parentIndex = currentNodeGridPos;
 
                     if (!openNodes.Contains(neigbour))
@@ -70,7 +86,7 @@ public class PathFinding : MonoBehaviour
             }
         }
     }
-    private void RetracePath(Node startNode, Node endNode, Agent agent)
+    private void RetracePath(Node startNode, Node endNode, AgentData agent)
     {
         List<Node> path = new List<Node>();
         Node currentNode = endNode;
@@ -81,7 +97,7 @@ public class PathFinding : MonoBehaviour
         }
         path.Reverse();
 
-        agent.path = path;
+        agent.core.path = path;
     }
 
     private int GetDistance(int movPenaltyA, int movPenaltyB, int2 gridPosA, int2 gridPosB)

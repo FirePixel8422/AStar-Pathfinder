@@ -149,17 +149,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b930e26e895050344b2b442647034007, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkableLayers:
-  - serializedVersion: 2
-    m_Bits: 512
-  - serializedVersion: 2
-    m_Bits: 128
-  - serializedVersion: 2
-    m_Bits: 256
-  movementPenalty:
-  - 15
-  - 100
-  - 50
+  walkableRegions:
+  - terrainLayer:
+      serializedVersion: 2
+      m_Bits: 512
+    terrainPenalty: 85
+  - terrainLayer:
+      serializedVersion: 2
+      m_Bits: 16
+    terrainPenalty: 80
+  - terrainLayer:
+      serializedVersion: 2
+      m_Bits: 128
+    terrainPenalty: 0
+  - terrainLayer:
+      serializedVersion: 2
+      m_Bits: 256
+    terrainPenalty: 50
   moveSpeed: 10
   degree: 0
 --- !u!114 &5880887981815180367
