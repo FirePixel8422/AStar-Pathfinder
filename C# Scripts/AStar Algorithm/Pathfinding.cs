@@ -32,14 +32,14 @@ public class PathFinding : MonoBehaviour
         bool useExtraStatsFromAgent = false;
         int additionalMovPenalty = 0;
 
-        int agentTerrainModifierLayerId = 0;
-        int agentTerrainModifier = 0;
+        int[] agentTerrainModifierLayerId = new int[agent.terrainLayer.Length];
+        int[] agentTerrainModifier = new int[agent.terrainLayer.Length];
 
         if (agent.extraPenalty.Length != 0)
         {
             useExtraStatsFromAgent = true;
-            agentTerrainModifierLayerId = agent.terrainLayer[0];
-            agentTerrainModifier = agent.extraPenalty[0];
+            agentTerrainModifierLayerId = agent.terrainLayer;
+            agentTerrainModifier = agent.extraPenalty;
         }
 
 
@@ -64,17 +64,20 @@ public class PathFinding : MonoBehaviour
                 }
                 if (useExtraStatsFromAgent == true)
                 {
-                    if (agentTerrainModifierLayerId == neigbour.layerId)
+                    for (int i = 0; i < agentTerrainModifier.Length; i++)
                     {
-                        additionalMovPenalty = agentTerrainModifier;
-                    }
-                    if (agentTerrainModifierLayerId == currentNode.layerId)
-                    {
-                        additionalMovPenalty = agentTerrainModifier;
-                    }
-                    if (agentTerrainModifierLayerId == targetNode.layerId)
-                    {
-                        additionalMovPenalty = agentTerrainModifier;
+                        if (agentTerrainModifierLayerId[i] == neigbour.layerId)
+                        {
+                            additionalMovPenalty = agentTerrainModifier[i];
+                        }
+                        if (agentTerrainModifierLayerId[i] == currentNode.layerId)
+                        {
+                            additionalMovPenalty = agentTerrainModifier[i];
+                        }
+                        if (agentTerrainModifierLayerId[i] == targetNode.layerId)
+                        {
+                            additionalMovPenalty = agentTerrainModifier[i];
+                        }
                     }
                 }
 

@@ -70,7 +70,7 @@ public class AgentCore : MonoBehaviour
         Ray ray = new Ray(transform.position, Vector3.down);
         for (int i = 0; i < walkableRegions.Length; i++)
         {
-            if (Physics.Raycast(ray, 2, walkableRegions[i].terrainLayer))
+            if (Physics.Raycast(ray, 2, walkableRegions[i].terrainLayer, QueryTriggerInteraction.Collide))
             {
                 terrainIndex = i;
                 break;

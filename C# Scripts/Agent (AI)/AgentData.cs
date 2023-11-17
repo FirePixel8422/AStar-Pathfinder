@@ -10,13 +10,14 @@ public class AgentData : MonoBehaviour
     public List<LayerMask> terrainLayerMasks;
 
     [HideInInspector]
-    public List<int> terrainLayer;
+    public int[] terrainLayer;
     public int[] extraPenalty;
 
     public int slopeIndex;
 
     private void Start()
     {
+        terrainLayer = new int[terrainLayerMasks.Count];
         for (int i = 0; i < terrainLayerMasks.Count; i++)
         {
             terrainLayer[i] = Mathf.RoundToInt(Mathf.Log(terrainLayerMasks[i].value, 2));

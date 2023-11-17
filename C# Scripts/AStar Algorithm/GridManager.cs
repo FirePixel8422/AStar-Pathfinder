@@ -15,6 +15,8 @@ public class GridManager : MonoBehaviour
 
     private AgentCore[] agents;
 
+    public Color[] layerColors;
+
     private LayerMask walkableLayers;
     private Dictionary<int, int> walkableRegionsDictionairy = new Dictionary<int, int>();
 
@@ -78,13 +80,14 @@ public class GridManager : MonoBehaviour
 
                     if (layerId == unwalkableLayerId || layerId == -1)
                     {
-                        gridFloor.grid[x, z] = new Node(false, worldPoint, new int2(x, z), movementPenalty, 0);
+                        gridFloor.grid[x, z] = new Node(false, worldPoint, new int2(x, z), layerId, movementPenalty);
                     }
                     else
                     {
                         walkableRegionsDictionairy.TryGetValue(layerId, out movementPenalty);
                         gridFloor.grid[x, z] = new Node(true, worldPoint, new int2(x, z), layerId, movementPenalty);
                     }
+                    print(layerId);
                 }
             }
         }
@@ -161,7 +164,16 @@ public class GridManager : MonoBehaviour
         {
             return;
         }
-        for (int i = 0; i < agents.Length; i++)
+        for (int i = 0; i < gridFloors[0].grid.GetLength(0); i++)
+        {
+            for (int i2 = 0; i2 < gridFloors[0].grid.GetLength(1); i2++)
+            {
+                Gizmos.color = layerColors[gridFloors[0].grid[i, i2].layerId];
+                Gizmos.DrawCube(gridFloors[0].grid[i, i2].worldPos, Vector3.one * gridFloors[0].nodeSize * 0.9f);
+            }
+        }
+
+        /*for (int i = 0; i < agents.Length; i++)
         {
             int slopeIndex = agents[i].agent.slopeIndex;
             if (gridFloors.Length <= slopeIndex)
@@ -178,6 +190,6 @@ public class GridManager : MonoBehaviour
                     Gizmos.DrawCube(agents[i].path[i2].worldPos + height, Vector3.one * (gridFloors[slopeIndex].nodeSize * 0.9f));
                 }
             }
-        }
+        }*/
     }
 }

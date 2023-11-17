@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1048,7 +1048,7 @@ Transform:
   m_GameObject: {fileID: 943372298}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.9387, y: 0.12, z: 11.3}
+  m_LocalPosition: {x: -22.7, y: 0.12, z: 0.1}
   m_LocalScale: {x: 5.4772525, y: 3, z: 4.0692}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1346,8 +1346,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.0711763, y: 1, z: 1}
-  m_Center: {x: -0.08162177, y: 0.18030187, z: 0}
+  m_Size: {x: 1.0711762, y: 0.32347652, z: 1}
+  m_Center: {x: -0.27969015, y: 0.9560955, z: 0}
 --- !u!1 &1299029247
 GameObject:
   m_ObjectHideFlags: 0
@@ -1823,7 +1823,7 @@ GameObject:
   - component: {fileID: 2136879430}
   - component: {fileID: 2136879429}
   m_Layer: 6
-  m_Name: Grass (8)
+  m_Name: wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1838,8 +1838,8 @@ Transform:
   m_GameObject: {fileID: 2136879427}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.13052616, w: 0.9914449}
-  m_LocalPosition: {x: -3.83, y: -0.9196, z: 19.5}
-  m_LocalScale: {x: 10.25, y: 3.8532, z: 10}
+  m_LocalPosition: {x: -4.2703, y: 0.7235, z: 19.5}
+  m_LocalScale: {x: 10.25, y: 0.45120972, z: 10}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 41525959}
@@ -1863,8 +1863,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 7.07703, z: 1}
+  m_Center: {x: -0.0000000023312061, y: -3.0385141, z: 0}
 --- !u!23 &2136879430
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2146,7 +2146,111 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: gridFloors.Array.size
-      value: 2
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: layerColors.Array.size
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: layerColors.Array.data[0].a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: layerColors.Array.data[4].a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: layerColors.Array.data[4].b
+      value: 0.9245283
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: layerColors.Array.data[4].g
+      value: 0.73181075
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: layerColors.Array.data[4].r
+      value: 0.38725522
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: layerColors.Array.data[6].a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: layerColors.Array.data[7].a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: layerColors.Array.data[7].b
+      value: 0.32766104
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: layerColors.Array.data[7].g
+      value: 0.9811321
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: layerColors.Array.data[7].r
+      value: 0.3966611
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: layerColors.Array.data[8].a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: layerColors.Array.data[8].b
+      value: 0.10655032
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: layerColors.Array.data[8].g
+      value: 0.35903996
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: layerColors.Array.data[8].r
+      value: 0.6886792
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: layerColors.Array.data[9].a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: layerColors.Array.data[9].b
+      value: 0.5377358
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: layerColors.Array.data[9].g
+      value: 0.5377358
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: layerColors.Array.data[9].r
+      value: 0.5377358
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: layerColors.Array.data[10].a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: layerColors.Array.data[10].b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: layerColors.Array.data[10].g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: layerColors.Array.data[10].r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: gridFloors.Array.data[0].nodeSize
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: gridFloors.Array.data[0].gridSize.x
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: gridFloors.Array.data[0].gridSize.z
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: gridFloors.Array.data[1].gridSize.x
