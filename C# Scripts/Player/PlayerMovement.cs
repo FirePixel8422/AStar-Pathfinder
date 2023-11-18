@@ -37,22 +37,24 @@ public class PlayerMovement : MonoBehaviour
         {
             dir.x += 1;
         }
-        int terrainIndex = -1;
-        Ray ray = new Ray(transform.position, Vector3.down);
-        for (int i = 0; i < walkableRegions.Length; i++)
+        if(dir != Vector3.zero)
         {
-            if (Physics.Raycast(ray, 2, walkableRegions[i].terrainLayer))
+            int terrainIndex = -1;
+            for (int i = 0; i < walkableRegions.Length; i++)
             {
-                terrainIndex = i;
-                break;
+                if (Physics.RaycastAll(transform.position, Vector3.down, 3, walkableRegions[i].terrainLayer, QueryTriggerInteraction.Collide).Length != 0)
+                {
+                    terrainIndex = i;
+                    break;
+                }
             }
+            float _moveSpeed = moveSpeed;
+            if (terrainIndex != -1)
+            {
+                _moveSpeed = moveSpeed * (100 - walkableRegions[terrainIndex].terrainPenalty) / 100;
+            }
+            dir *= -_moveSpeed;
         }
-        float _moveSpeed = moveSpeed;
-        if (terrainIndex != -1)
-        {
-            _moveSpeed = moveSpeed * (100 - walkableRegions[terrainIndex].terrainPenalty) / 100;
-        }
-
-        rb.velocity = -new Vector3(dir.x, 0, dir.z) * _moveSpeed;
+        rb.velocity = new Vector3(dir.x, rb.velocity.y, dir.z);
     }
 }

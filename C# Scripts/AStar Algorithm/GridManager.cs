@@ -15,7 +15,7 @@ public class GridManager : MonoBehaviour
 
     private AgentCore[] agents;
 
-    public Color[] layerColors;
+    public Color[] nodeLayerColors;
 
     private LayerMask walkableLayers;
     private Dictionary<int, int> walkableRegionsDictionairy = new Dictionary<int, int>();
@@ -61,18 +61,20 @@ public class GridManager : MonoBehaviour
                 for (int z = 0; z < gridSizeZ; z++)
                 {
                     Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * nodeSize + halfNodeSize) + Vector3.forward * (z * nodeSize + halfNodeSize);
+                    worldPoint.y += gridFloor.floorHeight;
 
                     int layerId = -1;
-                    var data = Physics.OverlapSphere(new Vector3(worldPoint.x, worldPoint.y + gridFloor.floorHeight + 0.15f, worldPoint.z), nodeSize / 2, walkableLayers + unwalkableLayer, QueryTriggerInteraction.Collide);
+                    var data = Physics.OverlapSphere(worldPoint, nodeSize * 0.75f, walkableLayers + unwalkableLayer, QueryTriggerInteraction.Collide);
                     if (data.Length != 0)
                     {
-                        float highestYPos = data[0].transform.position.y;
-                        layerId = data[0].gameObject.layer;
+                        float highestYPos = float.MinValue;
+                        layerId = -1;
                         for (int i2 = 0; i2 < data.Length; i2++)
                         {
-                            if(highestYPos < data[i2].transform.position.y)
+                            float newYpos = data[i2].transform.position.y;
+                            if ((highestYPos < newYpos && i == 0) || (i > 0 && highestYPos < newYpos && newYpos > gridFloors[i - 1].floorHeight))
                             {
-                                highestYPos = data[i2].transform.position.y;
+                                highestYPos = newYpos;
                                 layerId = data[i2].gameObject.layer;
                             }
                         }
@@ -87,7 +89,6 @@ public class GridManager : MonoBehaviour
                         walkableRegionsDictionairy.TryGetValue(layerId, out movementPenalty);
                         gridFloor.grid[x, z] = new Node(true, worldPoint, new int2(x, z), layerId, movementPenalty);
                     }
-                    print(layerId);
                 }
             }
         }
@@ -132,8 +133,9 @@ public class GridManager : MonoBehaviour
     {
         public Node[,] grid;
 
-        public bool drawGizmos = true;
-        public Color gizmoColor = Color.black;
+        public bool drawPathGizmos = true;
+        public bool drawNodeColorGizmos = false;
+        public Color pathNodesColor = Color.black;
 
         public Vector3 gridSize;
         public float floorHeight;
@@ -164,16 +166,26 @@ public class GridManager : MonoBehaviour
         {
             return;
         }
-        for (int i = 0; i < gridFloors[0].grid.GetLength(0); i++)
+        for (int i = 0; i < gridFloors.Length; i++)
         {
-            for (int i2 = 0; i2 < gridFloors[0].grid.GetLength(1); i2++)
+            if (gridFloors[i].drawNodeColorGizmos == true)
             {
-                Gizmos.color = layerColors[gridFloors[0].grid[i, i2].layerId];
-                Gizmos.DrawCube(gridFloors[0].grid[i, i2].worldPos, Vector3.one * gridFloors[0].nodeSize * 0.9f);
+                for (int i2 = 0; i2 < gridFloors[i].grid.GetLength(0); i2++)
+                {
+                    for (int i3 = 0; i3 < gridFloors[i].grid.GetLength(1); i3++)
+                    {
+                        Gizmos.color = new Color(0, 0, 0, 0);
+                        if (gridFloors[i].grid[i2, i3].layerId != -1)
+                        {
+                            Gizmos.color = nodeLayerColors[gridFloors[i].grid[i2, i3].layerId];
+                        }
+                        Gizmos.DrawCube(gridFloors[i].grid[i2, i3].worldPos, Vector3.one * gridFloors[i].nodeSize * 0.9f);
+                    }
+                }
             }
         }
 
-        /*for (int i = 0; i < agents.Length; i++)
+        for (int i = 0; i < agents.Length; i++)
         {
             int slopeIndex = agents[i].agent.slopeIndex;
             if (gridFloors.Length <= slopeIndex)
@@ -181,15 +193,15 @@ public class GridManager : MonoBehaviour
                 Debug.LogError("Cant draw gizmos, index is out of bounds \nAgent.slopeIndex > gridFloors.Length");
                 return;
             }
-            if (gridFloors.Length != 0 && gridFloors[slopeIndex].drawGizmos == true)
+
+            if (gridFloors.Length != 0 && gridFloors[slopeIndex].drawPathGizmos == true)
             {
-                Vector3 height = new Vector3(0, gridFloors[slopeIndex].floorHeight, 0);
-                Gizmos.color = gridFloors[slopeIndex].gizmoColor;
+                Gizmos.color = gridFloors[slopeIndex].pathNodesColor;
                 for (int i2 = 0; i2 < agents[i].path.Count; i2++)
                 {
-                    Gizmos.DrawCube(agents[i].path[i2].worldPos + height, Vector3.one * (gridFloors[slopeIndex].nodeSize * 0.9f));
+                    Gizmos.DrawCube(agents[i].path[i2].worldPos, Vector3.one * (gridFloors[slopeIndex].nodeSize * 0.9f));
                 }
             }
-        }*/
+        }
     }
 }

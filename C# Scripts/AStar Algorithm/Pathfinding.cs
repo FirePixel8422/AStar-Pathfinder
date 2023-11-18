@@ -20,6 +20,7 @@ public class PathFinding : MonoBehaviour
     public void FindPath(Vector3 startPos, Vector3 targetPos, AgentData agent)
     {
         int slopeIndex = agent.slopeIndex;
+        bool slopeMode = agent.core.slopeTransition;
         Stopwatch sw = new Stopwatch();
         sw.Start();
         Node startNode = grid.NodeFromWorldPoint(startPos, slopeIndex);
@@ -58,7 +59,7 @@ public class PathFinding : MonoBehaviour
             }
             foreach (Node neigbour in grid.GetNeigbours(currentNode, slopeIndex))
             {
-                if (!neigbour.walkable || closedNodes.Contains(neigbour))
+                if ((!neigbour.walkable && slopeMode == false) || closedNodes.Contains(neigbour))
                 {
                     continue;
                 }

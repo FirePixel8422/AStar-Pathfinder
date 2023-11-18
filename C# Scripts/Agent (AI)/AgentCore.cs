@@ -15,6 +15,9 @@ public class AgentCore : MonoBehaviour
     private int oldTargetSlopeIndex;
     public int goingToSlope;
 
+    public Vector3 slopeEndPos;
+    public bool slopeTransition;
+
     public TargetInfo target;
     private Vector3 oldTargetPos;
 
@@ -45,17 +48,19 @@ public class AgentCore : MonoBehaviour
         Vector3 targetPos = new Vector3(target.transform.position.x, 0, target.transform.position.z);
 
         float updateRange = pf.targetMoveDistanceForPathUpdate * Mathf.Clamp((Vector3.Distance(agentPos, targetPos) - pf.ignoredBaseUpdateRange) / pf.rangeForFasterPathUpdateSpeed * pf.grid.gridFloors[slopeIndex].nodeSize, 1, float.MaxValue);
-        if (((Vector3.Distance(oldTargetPos, targetPos) > updateRange || (Vector3.Distance(agentPos, targetPos) < pf.targetMoveDistanceForPathUpdate * 2 && Vector3.Distance(oldTargetPos, targetPos) > 0.01f)) && slopeIndex == targetSlopeIndex) || (oldTargetSlopeIndex != targetSlopeIndex && goingToSlope == 0))
+        if ((((Vector3.Distance(oldTargetPos, targetPos) > updateRange || (Vector3.Distance(agentPos, targetPos) < pf.targetMoveDistanceForPathUpdate * 2 && Vector3.Distance(oldTargetPos, targetPos) > 0.01f)) && slopeIndex == targetSlopeIndex) || (oldTargetSlopeIndex != targetSlopeIndex && goingToSlope == 0)) && slopeTransition == false)
         {
             if (targetSlopeIndex > slopeIndex)
             {
                 targetPos = sm.slopes[slopeIndex].slopeStart.position;
+                slopeEndPos = sm.slopes[slopeIndex].slopeEnd.position;
                 oldTargetSlopeIndex = targetSlopeIndex;
                 goingToSlope = 1;
             }
             else if (targetSlopeIndex < slopeIndex)
             {
                 targetPos = sm.slopes[slopeIndex - 1].slopeEnd.position;
+                slopeEndPos = sm.slopes[slopeIndex - 1].slopeStart.position;
                 oldTargetSlopeIndex = targetSlopeIndex;
                 goingToSlope = - 1;
             }
@@ -87,17 +92,27 @@ public class AgentCore : MonoBehaviour
             Vector3 pathTargetPos = new Vector3(path[0].worldPos.x, 0, path[0].worldPos.z);
             Vector3 newPos = Vector3.MoveTowards(agentPos, pathTargetPos, _moveSpeed * Time.deltaTime);
             transform.position = new Vector3(newPos.x, transform.position.y, newPos.z);
+            agentPos = new Vector3(transform.position.x, 0, transform.position.z);
 
             if (Vector3.Distance(agentPos, pathTargetPos) < pf.grid.gridFloors[slopeIndex].nodeSize * 1.25f && path.Count > 0)
             {
                 path.RemoveAt(0);
                 if (path.Count == 0 && goingToSlope != 0)
                 {
-                    agent.slopeIndex += goingToSlope;
-                    goingToSlope = 0;
-                    if(slopeIndex == targetSlopeIndex)
+                    if(slopeTransition == false)
                     {
-                        pf.FindPath(agentPos, target.transform.position, agent);
+                        slopeTransition = true;
+                        agent.slopeIndex += goingToSlope;
+                        pf.FindPath(agentPos, slopeEndPos, agent);
+                    }
+                    else
+                    {
+                        slopeTransition = false;
+                        goingToSlope = 0;
+                        if (slopeIndex == targetSlopeIndex)
+                        {
+                            pf.FindPath(agentPos, target.transform.position, agent);
+                        }
                     }
                 }
             }
