@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Percentage speed reduction \n85 = -85% speed on selected terrain")]
     public TerrainLayerType[] walkableRegions;
+
+    public LayerMask walkableObjectLayer;
 
     public float moveSpeed = 3;
     public int degree;
@@ -39,21 +42,44 @@ public class PlayerMovement : MonoBehaviour
         }
         if(dir != Vector3.zero)
         {
-            /*int terrainIndex = -1;
-            for (int i = 0; i < walkableRegions.Length; i++)
+            int highestLayerPriority = 0;
+            int layerId = 0;
+            float _moveSpeed = 0;
+
+            Collider[] data = Physics.OverlapSphere(new Vector3(transform.position.x, transform.position.y - transform.lossyScale.y, transform.position.z), .5f, walkableObjectLayer);
+            if (data.Length == 0)
             {
-                if (Physics.RaycastAll(transform.position, Vector3.down, 3, walkableRegions[i].terrainLayer, QueryTriggerInteraction.Collide).Length != 0)
+                dir *= -_moveSpeed;
+            }
+            TerrainObject[] terrainObjects = new TerrainObject[data.Length];
+            for (int i = 0; i < data.Length; i++)
+            {
+                terrainObjects[i] = data[i].gameObject.GetComponent<TerrainObject>();
+            }
+            for (int i = 0; i < terrainObjects.Length; i++)
+            {
+                if (terrainObjects[2] == null)
                 {
-                    terrainIndex = i;
-                    break;
+                    continue;
+                }
+                if (terrainObjects[i].terrainType == TerrainType.custom && terrainObjects[i].customSettings.overridePriority * 10 < highestLayerPriority)
+                {
+                    highestLayerPriority = terrainObjects[i].customSettings.overridePriority;
+                    layerId = i;
+                }
+                else if (walkableRegions[(int)terrainObjects[i].terrainType].priority * 10 < highestLayerPriority)
+                {
+                    highestLayerPriority = walkableRegions[(int)terrainObjects[i].terrainType].priority * 10;
+                    layerId = i;
                 }
             }
-            float _moveSpeed = moveSpeed;
-            if (terrainIndex != -1)
+            for (int i2 = 0; i2 < walkableRegions.Length; i2++)
             {
-                _moveSpeed = moveSpeed * (100 - walkableRegions[terrainIndex].terrainPenalty) / 100;
-            }*/
-            dir *= -moveSpeed; //change to "_movementSpeed".
+                if (walkableRegions[i2].terrainType == terrainObjects[layerId].terrainType)
+                {
+                    _moveSpeed = moveSpeed / 100 * (100 - walkableRegions[i2].terrainPenalty);
+                }
+            }
         }
         rb.velocity = new Vector3(dir.x, rb.velocity.y, dir.z);
     }

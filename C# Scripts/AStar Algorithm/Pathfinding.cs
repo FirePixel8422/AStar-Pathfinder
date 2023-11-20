@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PathFinding : MonoBehaviour
@@ -31,18 +32,20 @@ public class PathFinding : MonoBehaviour
 
 
         bool useExtraStatsFromAgent = false;
-        int additionalMovPenalty = 0;
+        int[] movPenalties = new int[3];
 
-        int[] agentTerrainModifierLayerId = new int[agent.terrainLayer.Length];
-        int[] agentTerrainModifier = new int[agent.terrainLayer.Length];
+        int[] agentTerrainModifierLayerId = new int[agent.terrainlayers.Length];
+        int[] agentTerrainModifier = new int[agent.terrainlayers.Length];
 
         if (agent.extraPenalty.Length != 0)
         {
             useExtraStatsFromAgent = true;
-            agentTerrainModifierLayerId = agent.terrainLayer;
             agentTerrainModifier = agent.extraPenalty;
+            for (int i = 0; i < agentTerrainModifierLayerId.Length; i++)
+            {
+                agentTerrainModifierLayerId[i] = (int)agent.terrainlayers[i] * 10;
+            }
         }
-
 
         openNodes.Add(startNode);
         while (openNodes.Count > 0)
@@ -63,39 +66,39 @@ public class PathFinding : MonoBehaviour
                 {
                     continue;
                 }
+                movPenalties[0] = neigbour.movementPenalty;
+                movPenalties[1] = currentNode.movementPenalty;
+                movPenalties[2] = targetNode.movementPenalty;
+
                 if (useExtraStatsFromAgent == true)
                 {
                     for (int i = 0; i < agentTerrainModifier.Length; i++)
                     {
                         if (agentTerrainModifierLayerId[i] == neigbour.layerId)
                         {
-                            additionalMovPenalty = agentTerrainModifier[i];
+                            movPenalties[0] = neigbour.movementPenalty + agentTerrainModifier[i];
                         }
                         if (agentTerrainModifierLayerId[i] == currentNode.layerId)
                         {
-                            additionalMovPenalty = agentTerrainModifier[i];
+                            movPenalties[1] = currentNode.movementPenalty + agentTerrainModifier[i];
                         }
                         if (agentTerrainModifierLayerId[i] == targetNode.layerId)
                         {
-                            additionalMovPenalty = agentTerrainModifier[i];
+                            movPenalties[2] = targetNode.movementPenalty + agentTerrainModifier[i];
                         }
                     }
                 }
 
-                int neigbourMovPenalty = neigbour.movementPenalty + additionalMovPenalty;
-
-                int2 neigbourGridPos = neigbour.gridPos;
-
                 int2 currentNodeGridPos = currentNode.gridPos;
 
-                int neigbourDist = GetDistance(currentNode.movementPenalty + additionalMovPenalty, neigbourMovPenalty, currentNodeGridPos, neigbourGridPos);
-                int newMovementCostToNeigbour = currentNode.gCost + neigbourDist + neigbourMovPenalty / 10 * neigbourDist;
+                int neigbourDist = GetDistance(movPenalties[1], movPenalties[0], currentNodeGridPos, neigbour.gridPos);
+                int newMovementCostToNeigbour = currentNode.gCost + neigbourDist + movPenalties[0] / 10 * neigbourDist;
 
                 if (newMovementCostToNeigbour < neigbour.gCost || !openNodes.Contains(neigbour))
                 {
                     neigbour.gCost = newMovementCostToNeigbour;
 
-                    neigbour.hCost = GetDistance(neigbourMovPenalty, targetNode.movementPenalty + additionalMovPenalty, neigbourGridPos, targetNode.gridPos);
+                    neigbour.hCost = GetDistance(movPenalties[0], movPenalties[2], neigbour.gridPos, targetNode.gridPos);
                     neigbour.parentIndex = currentNodeGridPos;
 
                     if (!openNodes.Contains(neigbour))
@@ -134,20 +137,4 @@ public class PathFinding : MonoBehaviour
             return (14 + movPenaltyA / 10 * 14) * distX + (10 + movPenaltyA) * (distZ - distX);
         }
     }
-    /*private int GetDistance(int movPenaltyA, int movPenaltyB, int2 gridPosA, int2 gridPosB)
-    {
-        int distX = Math.Abs(gridPosA.x - gridPosB.x);
-        int distZ = Math.Abs(gridPosA.y - gridPosB.y);
-
-        int straightCost = 10;
-        int diagonalCost = 14;
-
-        int minDist = Math.Min(distX, distZ);
-        int maxDist = Math.Max(distX, distZ);
-
-        int diagonalSteps = minDist;
-        int straightSteps = maxDist - minDist;
-
-        return diagonalCost * diagonalSteps + straightCost * straightSteps + (movPenaltyA / 10) * diagonalCost * minDist;
-    }*/
 }

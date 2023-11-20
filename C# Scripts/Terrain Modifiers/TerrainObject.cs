@@ -13,7 +13,7 @@ public class TerrainObject : MonoBehaviour
     public class CustomSettings
     {
         [Header("Unwalkable = 10, wet_concrete = 20, lower = higher priority")]
-        public float overridePriority;
+        public int overridePriority;
         public int overrideTerrainPenalty;
     }
 }

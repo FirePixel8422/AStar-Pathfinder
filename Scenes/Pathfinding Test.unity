@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -364,7 +364,7 @@ Transform:
   m_GameObject: {fileID: 478992871}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -12.14, y: 0.025, z: 12.85}
+  m_LocalPosition: {x: -19.77, y: 0.025, z: 12.86}
   m_LocalScale: {x: 4, y: 0.1, z: 4}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -402,7 +402,7 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -1503,6 +1503,10 @@ PrefabInstance:
       value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 2223387263319024814, guid: 963d4260b22509a41ac1957a1cff2fa0, type: 3}
+      propertyPath: floorType.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2223387263319024814, guid: 963d4260b22509a41ac1957a1cff2fa0, type: 3}
       propertyPath: walkableRegions.Array.data[1].terrainPenalty
       value: 50
       objectReference: {fileID: 0}
@@ -1526,13 +1530,29 @@ PrefabInstance:
       propertyPath: slopeIndex
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2847047930017798727, guid: 963d4260b22509a41ac1957a1cff2fa0, type: 3}
+      propertyPath: extraPenalty.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2847047930017798727, guid: 963d4260b22509a41ac1957a1cff2fa0, type: 3}
+      propertyPath: terrainlayers.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2847047930017798727, guid: 963d4260b22509a41ac1957a1cff2fa0, type: 3}
+      propertyPath: extraPenalty.Array.data[0]
+      value: -180
+      objectReference: {fileID: 0}
+    - target: {fileID: 2847047930017798727, guid: 963d4260b22509a41ac1957a1cff2fa0, type: 3}
+      propertyPath: terrainlayers.Array.data[0]
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8260075918402167798, guid: 963d4260b22509a41ac1957a1cff2fa0, type: 3}
       propertyPath: m_Name
       value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 8307526138048905853, guid: 963d4260b22509a41ac1957a1cff2fa0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8.8
+      value: 10.6
       objectReference: {fileID: 0}
     - target: {fileID: 8307526138048905853, guid: 963d4260b22509a41ac1957a1cff2fa0, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1540,7 +1560,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8307526138048905853, guid: 963d4260b22509a41ac1957a1cff2fa0, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -13.3
+      value: -23.5
       objectReference: {fileID: 0}
     - target: {fileID: 8307526138048905853, guid: 963d4260b22509a41ac1957a1cff2fa0, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1906,15 +1926,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2236107742010083477, guid: 4bc0b0ab69a31bb449b240318a5180cb, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 10.54
+      value: -31.8
       objectReference: {fileID: 0}
     - target: {fileID: 2236107742010083477, guid: 4bc0b0ab69a31bb449b240318a5180cb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.29
+      value: 0.93
       objectReference: {fileID: 0}
     - target: {fileID: 2236107742010083477, guid: 4bc0b0ab69a31bb449b240318a5180cb, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 20.71
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 2236107742010083477, guid: 4bc0b0ab69a31bb449b240318a5180cb, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1954,15 +1974,67 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5880887981815180367, guid: 4bc0b0ab69a31bb449b240318a5180cb, type: 3}
       propertyPath: slopeIndex
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6255369772749808019, guid: 4bc0b0ab69a31bb449b240318a5180cb, type: 3}
       propertyPath: moveSpeed
       value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 6255369772749808019, guid: 4bc0b0ab69a31bb449b240318a5180cb, type: 3}
+      propertyPath: walkableObjectLayer.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 6255369772749808019, guid: 4bc0b0ab69a31bb449b240318a5180cb, type: 3}
+      propertyPath: walkableRegions.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6255369772749808019, guid: 4bc0b0ab69a31bb449b240318a5180cb, type: 3}
+      propertyPath: walkableRegions.Array.data[0].terrainType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6255369772749808019, guid: 4bc0b0ab69a31bb449b240318a5180cb, type: 3}
+      propertyPath: walkableRegions.Array.data[1].terrainType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6255369772749808019, guid: 4bc0b0ab69a31bb449b240318a5180cb, type: 3}
+      propertyPath: walkableRegions.Array.data[2].terrainType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6255369772749808019, guid: 4bc0b0ab69a31bb449b240318a5180cb, type: 3}
+      propertyPath: walkableRegions.Array.data[3].terrainType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6255369772749808019, guid: 4bc0b0ab69a31bb449b240318a5180cb, type: 3}
+      propertyPath: walkableRegions.Array.data[4].terrainType
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6255369772749808019, guid: 4bc0b0ab69a31bb449b240318a5180cb, type: 3}
+      propertyPath: walkableRegions.Array.data[5].terrainType
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6255369772749808019, guid: 4bc0b0ab69a31bb449b240318a5180cb, type: 3}
+      propertyPath: walkableRegions.Array.data[0].terrainPenalty
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6255369772749808019, guid: 4bc0b0ab69a31bb449b240318a5180cb, type: 3}
       propertyPath: walkableRegions.Array.data[1].terrainPenalty
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6255369772749808019, guid: 4bc0b0ab69a31bb449b240318a5180cb, type: 3}
+      propertyPath: walkableRegions.Array.data[2].terrainPenalty
+      value: 85
+      objectReference: {fileID: 0}
+    - target: {fileID: 6255369772749808019, guid: 4bc0b0ab69a31bb449b240318a5180cb, type: 3}
+      propertyPath: walkableRegions.Array.data[3].terrainPenalty
       value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 6255369772749808019, guid: 4bc0b0ab69a31bb449b240318a5180cb, type: 3}
+      propertyPath: walkableRegions.Array.data[4].terrainPenalty
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6255369772749808019, guid: 4bc0b0ab69a31bb449b240318a5180cb, type: 3}
+      propertyPath: walkableRegions.Array.data[5].terrainPenalty
+      value: 50
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2024,7 +2096,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: nodeLayerColors.Array.size
-      value: 11
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: walkableObjectLayer.m_Bits
@@ -2032,7 +2104,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: walkableRegions.Array.size
-      value: 4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: layerColors.Array.data[0].a
@@ -2180,15 +2252,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: nodeLayerColors.Array.data[4].b
-      value: 0.54509807
+      value: 0.4188679
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: nodeLayerColors.Array.data[4].g
-      value: 0.7294118
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: nodeLayerColors.Array.data[4].r
-      value: 0.972549
+      value: 0.4783814
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: nodeLayerColors.Array.data[5].a
@@ -2196,15 +2268,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: nodeLayerColors.Array.data[5].b
-      value: 0.4188679
+      value: 0.54509807
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: nodeLayerColors.Array.data[5].g
-      value: 1
+      value: 0.7294118
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: nodeLayerColors.Array.data[5].r
-      value: 0.4783814
+      value: 0.972549
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: nodeLayerColors.Array.data[6].a
@@ -2296,19 +2368,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: gridFloors.Array.data[0].gridSize.x
-      value: 10
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: gridFloors.Array.data[0].gridSize.z
-      value: 10
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: gridFloors.Array.data[1].gridSize.x
-      value: 1
+      value: 65
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: gridFloors.Array.data[1].gridSize.z
-      value: 1
+      value: 65
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: gridFloors.Array.data[0].floorHeight
@@ -2319,8 +2391,28 @@ PrefabInstance:
       value: 2.75
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: walkableRegions.Array.data[1].priority
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: walkableRegions.Array.data[2].priority
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: walkableRegions.Array.data[3].priority
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: walkableRegions.Array.data[4].priority
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: walkableRegions.Array.data[5].priority
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: gridFloors.Array.data[0].gridPosition.x
-      value: -0.34
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: gridFloors.Array.data[0].gridPosition.y
@@ -2328,7 +2420,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: gridFloors.Array.data[0].gridPosition.z
-      value: -6.46
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: gridFloors.Array.data[1].gridPosition.y
@@ -2336,19 +2428,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: walkableRegions.Array.data[0].terrainType
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: walkableRegions.Array.data[1].terrainType
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: walkableRegions.Array.data[2].terrainType
-      value: 5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: walkableRegions.Array.data[3].terrainType
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: walkableRegions.Array.data[4].terrainType
@@ -2356,7 +2448,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: walkableRegions.Array.data[5].terrainType
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: walkableRegions.Array.data[6].terrainType
@@ -2372,23 +2464,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: walkableRegions.Array.data[0].terrainPenalty
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
-      propertyPath: walkableRegions.Array.data[1].terrainPenalty
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
-      propertyPath: walkableRegions.Array.data[2].terrainPenalty
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
-      propertyPath: walkableRegions.Array.data[3].terrainPenalty
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: walkableRegions.Array.data[1].terrainPenalty
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: walkableRegions.Array.data[2].terrainPenalty
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: walkableRegions.Array.data[3].terrainPenalty
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: walkableRegions.Array.data[4].terrainPenalty
-      value: 10
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: walkableRegions.Array.data[5].terrainPenalty
@@ -2513,7 +2605,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   terrainType: 1
-  gridFloorId: 0
+  gridFloorId: 1
   customSettings:
     overridePriority: 0
     overrideTerrainPenalty: 0

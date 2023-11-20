@@ -6,5 +6,6 @@ using UnityEngine;
 public class TerrainLayerType
 {
     public TerrainType terrainType = TerrainType.unwalkable;
+    public int priority;
     public int terrainPenalty;
 }

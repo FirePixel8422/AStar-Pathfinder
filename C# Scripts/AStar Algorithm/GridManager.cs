@@ -26,7 +26,7 @@ public class GridManager : MonoBehaviour
     {
         int movementPenalty;
         int layerId;
-        float highestLayerpriority;
+        int highestLayerPriority;
 
         for (int i = 0; i < gridFloors.Length; i++)
         {
@@ -53,12 +53,12 @@ public class GridManager : MonoBehaviour
                 {
                     movementPenalty = 0;
                     layerId = -10;
-                    highestLayerpriority = int.MaxValue;
+                    highestLayerPriority = int.MaxValue;
 
                     Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * nodeSize + halfNodeSize) + Vector3.forward * (z * nodeSize + halfNodeSize);
 
-                    Collider[] data = Physics.OverlapSphere(worldPoint, nodeSize * 0.5f, walkableObjectLayer);
-                    if(data.Length == 0)
+                    Collider[] data = Physics.OverlapSphere(worldPoint, nodeSize * 0.75f, walkableObjectLayer);
+                    if (data.Length == 0)
                     {
                         gridFloor.grid[x, z] = new Node(false, worldPoint, new int2(x, z), -10, movementPenalty);
                         continue;
@@ -72,37 +72,36 @@ public class GridManager : MonoBehaviour
                             terrainObjects[i2] = null;
                         }
                     }
-
                     for (int i2 = 0; i2 < terrainObjects.Length; i2++)
                     {
                         if (terrainObjects[i2] == null)
                         {
                             continue;
                         }
-                        if (terrainObjects[i2].terrainType == TerrainType.custom && terrainObjects[i2].customSettings.overridePriority * 10 < highestLayerpriority)
+                        if (terrainObjects[i2].terrainType == TerrainType.custom && terrainObjects[i2].customSettings.overridePriority * 10 < highestLayerPriority)
                         {
-                            highestLayerpriority = terrainObjects[i2].customSettings.overridePriority;
+                            highestLayerPriority = terrainObjects[i2].customSettings.overridePriority;
                             layerId = i2;
                         }
-                        else if ((int)terrainObjects[i2].terrainType * 10 < highestLayerpriority)
+                        else if (walkableRegions[(int)terrainObjects[i2].terrainType].priority * 10 < highestLayerPriority)
                         {
-                            highestLayerpriority = (int)terrainObjects[i2].terrainType * 10;
+                            highestLayerPriority = walkableRegions[(int)terrainObjects[i2].terrainType].priority * 10;
                             layerId = i2;
                         }
                     }
 
-                    if(layerId == -10)
+                    if (layerId == -10)
                     {
                         gridFloor.grid[x, z] = new Node(false, worldPoint, new int2(x, z), -10, 0);
                         continue;
                     }
 
-     
+
                     if (terrainObjects[layerId].terrainType == TerrainType.custom)
                     {
                         gridFloor.grid[x, z] = new Node(true, worldPoint, new int2(x, z), layerId, terrainObjects[layerId].customSettings.overrideTerrainPenalty);
                     }
-                    else if(terrainObjects[layerId].terrainType == TerrainType.unwalkable)
+                    else if (terrainObjects[layerId].terrainType == TerrainType.unwalkable)
                     {
                         gridFloor.grid[x, z] = new Node(false, worldPoint, new int2(x, z), (int)terrainObjects[layerId].terrainType * 10, 0);
                     }
@@ -112,7 +111,6 @@ public class GridManager : MonoBehaviour
                         {
                             if (walkableRegions[i2].terrainType == terrainObjects[layerId].terrainType)
                             {
-                                print($"{walkableRegions[i2].terrainType} + {terrainObjects[layerId].terrainType}");
                                 movementPenalty = walkableRegions[i2].terrainPenalty;
                             }
                         }
@@ -169,7 +167,7 @@ public class GridManager : MonoBehaviour
         public Vector3 gridSize;
         public Vector3 gridPosition;
 
-        [Range(0.25f, 5)]
+        [Range(0.15f, 5)]
         public float nodeSize;
 
         [HideInInspector]
@@ -195,8 +193,15 @@ public class GridManager : MonoBehaviour
         {
             return;
         }
+        
         for (int i = 0; i < gridFloors.Length; i++)
         {
+            if (gridFloors[i].nodeSize < .25f)
+            {
+                Debug.Log("Not a good idea, to many nodes to draw");
+                gridFloors[i].drawNodeColorGizmos = false;
+                return;
+            }
             if (gridFloors[i].drawNodeColorGizmos == true)
             {
                 for (int i2 = 0; i2 < gridFloors[i].grid.GetLength(0); i2++)

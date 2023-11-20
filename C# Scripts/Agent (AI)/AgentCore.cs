@@ -12,8 +12,6 @@ public class AgentCore : MonoBehaviour
     [Header("Percentage speed reduction \n85 = -85% speed on selected terrain")]
     public TerrainLayerType[] walkableRegions;
 
-    public List<TerrainObject> floorType = new List<TerrainObject>();
-
     public List<Node> path = new List<Node>();
 
     private int oldTargetSlopeIndex;
@@ -121,14 +119,5 @@ public class AgentCore : MonoBehaviour
                 }
             }
         }
-    }
-
-    private void OnCollisionEnter(Collision obj)
-    {
-        floorType.Add(obj.gameObject.GetComponent<TerrainObject>());
-    }
-    private void OnCollisionExit(Collision obj)
-    {
-        floorType.Remove(obj.gameObject.GetComponent<TerrainObject>());
     }
 }
