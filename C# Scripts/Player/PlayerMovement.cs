@@ -7,7 +7,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody rb;
 
     [Header("Percentage speed reduction \n85 = -85% speed on selected terrain")]
-    public TerrainType[] walkableRegions;
+    public TerrainLayerType[] walkableRegions;
 
     public float moveSpeed = 3;
     public int degree;
@@ -39,7 +39,7 @@ public class PlayerMovement : MonoBehaviour
         }
         if(dir != Vector3.zero)
         {
-            int terrainIndex = -1;
+            /*int terrainIndex = -1;
             for (int i = 0; i < walkableRegions.Length; i++)
             {
                 if (Physics.RaycastAll(transform.position, Vector3.down, 3, walkableRegions[i].terrainLayer, QueryTriggerInteraction.Collide).Length != 0)
@@ -52,8 +52,8 @@ public class PlayerMovement : MonoBehaviour
             if (terrainIndex != -1)
             {
                 _moveSpeed = moveSpeed * (100 - walkableRegions[terrainIndex].terrainPenalty) / 100;
-            }
-            dir *= -_moveSpeed;
+            }*/
+            dir *= -moveSpeed; //change to "_movementSpeed".
         }
         rb.velocity = new Vector3(dir.x, rb.velocity.y, dir.z);
     }

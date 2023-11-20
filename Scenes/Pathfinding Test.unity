@@ -285,6 +285,129 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &478992871
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 478992875}
+  - component: {fileID: 478992874}
+  - component: {fileID: 478992873}
+  - component: {fileID: 478992877}
+  - component: {fileID: 478992876}
+  m_Layer: 6
+  m_Name: water
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!23 &478992873
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 478992871}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 9e2632b235a88224181780a3abee8c12, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &478992874
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 478992871}
+  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &478992875
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 478992871}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -12.14, y: 0.025, z: 12.85}
+  m_LocalScale: {x: 4, y: 0.1, z: 4}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5458906563421631575}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &478992876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 478992871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1db8b9447f8d8f94ca1141303e715300, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrainType: 3
+  gridFloorId: 0
+  customSettings:
+    overridePriority: 0
+    overrideTerrainPenalty: 0
+--- !u!135 &478992877
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 478992871}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &598010992
 GameObject:
   m_ObjectHideFlags: 0
@@ -389,8 +512,9 @@ GameObject:
   - component: {fileID: 943372301}
   - component: {fileID: 943372300}
   - component: {fileID: 943372299}
+  - component: {fileID: 943372303}
   m_Layer: 6
-  m_Name: Cube
+  m_Name: wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -475,13 +599,30 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 943372298}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -22.7, y: 0.12, z: 0.1}
   m_LocalScale: {x: 5.4772525, y: 3, z: 4.0692}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 5458906563421631575}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &943372303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 943372298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1db8b9447f8d8f94ca1141303e715300, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrainType: 1
+  gridFloorId: 0
+  customSettings:
+    overridePriority: 0
+    overrideTerrainPenalty: 0
 --- !u!114 &1750890228 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5880887981815180367, guid: 4bc0b0ab69a31bb449b240318a5180cb, type: 3}
@@ -633,7 +774,8 @@ GameObject:
   - component: {fileID: 6948747225735806089}
   - component: {fileID: 6746051164875638689}
   - component: {fileID: 2528263556912588606}
-  m_Layer: 9
+  - component: {fileID: 6948747225735806090}
+  m_Layer: 6
   m_Name: Wet Concrete (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -963,8 +1105,9 @@ GameObject:
   - component: {fileID: 7215141284230531994}
   - component: {fileID: 1701536660680709378}
   - component: {fileID: 7343142116118149451}
+  - component: {fileID: 7343142116118149452}
   m_Layer: 6
-  m_Name: Grass (6)
+  m_Name: Slope (Unwalkable bottom)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -979,7 +1122,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4897063869474949155}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: SlopeTop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -998,6 +1141,7 @@ GameObject:
   - component: {fileID: 4139720869249616849}
   - component: {fileID: 1338878339872748198}
   - component: {fileID: 7357243446853168656}
+  - component: {fileID: 7357243446853168657}
   m_Layer: 6
   m_Name: wall
   m_TagString: Untagged
@@ -1165,8 +1309,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3443535012004193085}
   - component: {fileID: 2726015001867452280}
+  - component: {fileID: 3443535012004193086}
   m_Layer: 6
-  m_Name: SlopeFix grass
+  m_Name: SlopeFix unwalkable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1187,6 +1332,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2797298958435568905}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -15}
+--- !u!114 &3443535012004193086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2978198997980705477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1db8b9447f8d8f94ca1141303e715300, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrainType: 1
+  gridFloorId: 1
+  customSettings:
+    overridePriority: 0
+    overrideTerrainPenalty: 0
 --- !u!4 &3584306575892362103
 Transform:
   m_ObjectHideFlags: 0
@@ -1214,7 +1376,8 @@ GameObject:
   - component: {fileID: 4082564784891212735}
   - component: {fileID: 7693618784029952992}
   - component: {fileID: 1865919193472222264}
-  m_Layer: 8
+  - component: {fileID: 7693618784029952993}
+  m_Layer: 6
   m_Name: Floor Mud
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1459,7 +1622,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8156963178752112169}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: SlopeBottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1482,17 +1645,19 @@ Transform:
   - {fileID: 6082195236402299951}
   - {fileID: 6631357298063042438}
   - {fileID: 6569724867824681237}
-  - {fileID: 2259926390809564773}
-  - {fileID: 4634606779288276821}
-  - {fileID: 2797298958435568905}
-  - {fileID: 2724939454797736812}
-  - {fileID: 8593743100522373969}
   - {fileID: 3584306575892362103}
   - {fileID: 2473381516158497530}
   - {fileID: 7675430346064966350}
-  - {fileID: 321160925992222985}
+  - {fileID: 4634606779288276821}
+  - {fileID: 2797298958435568905}
   - {fileID: 4184126653899566441}
+  - {fileID: 478992875}
+  - {fileID: 321160925992222985}
   - {fileID: 1675835565082584061}
+  - {fileID: 2724939454797736812}
+  - {fileID: 8593743100522373969}
+  - {fileID: 2259926390809564773}
+  - {fileID: 943372302}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5540929400206607678
@@ -1507,6 +1672,7 @@ GameObject:
   - component: {fileID: 8690157611367925176}
   - component: {fileID: 1720498110046810626}
   - component: {fileID: 590025689693524264}
+  - component: {fileID: 8690157611367925177}
   m_Layer: 6
   m_Name: wall (1)
   m_TagString: Untagged
@@ -1642,7 +1808,8 @@ GameObject:
   - component: {fileID: 4217143557391820753}
   - component: {fileID: 96005877351899722}
   - component: {fileID: 6676557745014842081}
-  m_Layer: 7
+  - component: {fileID: 6676557745014842082}
+  m_Layer: 6
   m_Name: Grass (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1670,6 +1837,23 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6676557745014842082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6642161133373275450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1db8b9447f8d8f94ca1141303e715300, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrainType: 4
+  gridFloorId: 0
+  customSettings:
+    overridePriority: 0
+    overrideTerrainPenalty: 0
 --- !u!23 &6746051164875638689
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1793,6 +1977,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 943808756420968699}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &6948747225735806090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 943808756420968699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1db8b9447f8d8f94ca1141303e715300, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrainType: 2
+  gridFloorId: 0
+  customSettings:
+    overridePriority: 0
+    overrideTerrainPenalty: 0
 --- !u!33 &7105090403275863441
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1824,6 +2025,14 @@ PrefabInstance:
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: nodeLayerColors.Array.size
       value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: walkableObjectLayer.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: walkableRegions.Array.size
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: layerColors.Array.data[0].a
@@ -1918,8 +2127,52 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: nodeLayerColors.Array.data[0].b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: nodeLayerColors.Array.data[0].g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: nodeLayerColors.Array.data[0].r
-      value: 0.4716981
+      value: 0.7773361
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: nodeLayerColors.Array.data[1].a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: nodeLayerColors.Array.data[2].a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: nodeLayerColors.Array.data[2].b
+      value: 0.5372549
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: nodeLayerColors.Array.data[2].g
+      value: 0.5372549
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: nodeLayerColors.Array.data[2].r
+      value: 0.5372549
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: nodeLayerColors.Array.data[3].a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: nodeLayerColors.Array.data[3].b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: nodeLayerColors.Array.data[3].g
+      value: 0.9254902
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: nodeLayerColors.Array.data[3].r
+      value: 0.40784314
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: nodeLayerColors.Array.data[4].a
@@ -1927,75 +2180,111 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: nodeLayerColors.Array.data[4].b
-      value: 1
+      value: 0.54509807
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: nodeLayerColors.Array.data[4].g
-      value: 0.92666066
+      value: 0.7294118
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: nodeLayerColors.Array.data[4].r
-      value: 0.40943396
+      value: 0.972549
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
-      propertyPath: nodeLayerColors.Array.data[6].a
+      propertyPath: nodeLayerColors.Array.data[5].a
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
-      propertyPath: nodeLayerColors.Array.data[7].a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
-      propertyPath: nodeLayerColors.Array.data[7].b
+      propertyPath: nodeLayerColors.Array.data[5].b
       value: 0.4188679
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
-      propertyPath: nodeLayerColors.Array.data[7].g
+      propertyPath: nodeLayerColors.Array.data[5].g
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
-      propertyPath: nodeLayerColors.Array.data[7].r
+      propertyPath: nodeLayerColors.Array.data[5].r
       value: 0.4783814
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: nodeLayerColors.Array.data[6].a
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: nodeLayerColors.Array.data[6].b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: nodeLayerColors.Array.data[6].g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: nodeLayerColors.Array.data[6].r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: nodeLayerColors.Array.data[7].a
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: nodeLayerColors.Array.data[7].b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: nodeLayerColors.Array.data[7].g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: nodeLayerColors.Array.data[7].r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: nodeLayerColors.Array.data[8].a
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: nodeLayerColors.Array.data[8].b
-      value: 0.5445176
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: nodeLayerColors.Array.data[8].g
-      value: 0.7308715
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: nodeLayerColors.Array.data[8].r
-      value: 0.9716981
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: nodeLayerColors.Array.data[9].a
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: nodeLayerColors.Array.data[9].b
-      value: 0.5377358
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: nodeLayerColors.Array.data[9].g
-      value: 0.5377358
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: nodeLayerColors.Array.data[9].r
-      value: 0.5377358
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: nodeLayerColors.Array.data[10].a
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: nodeLayerColors.Array.data[10].b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: nodeLayerColors.Array.data[10].g
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: nodeLayerColors.Array.data[10].r
-      value: 0.4745098
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: gridFloors.Array.data[0].nodeSize
@@ -2007,19 +2296,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: gridFloors.Array.data[0].gridSize.x
-      value: 100
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: gridFloors.Array.data[0].gridSize.z
-      value: 100
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: gridFloors.Array.data[1].gridSize.x
-      value: 65
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: gridFloors.Array.data[1].gridSize.z
-      value: 65
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: gridFloors.Array.data[0].floorHeight
@@ -2030,6 +2319,50 @@ PrefabInstance:
       value: 2.75
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: gridFloors.Array.data[0].gridPosition.x
+      value: -0.34
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: gridFloors.Array.data[0].gridPosition.y
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: gridFloors.Array.data[0].gridPosition.z
+      value: -6.46
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: gridFloors.Array.data[1].gridPosition.y
+      value: 2.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: walkableRegions.Array.data[0].terrainType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: walkableRegions.Array.data[1].terrainType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: walkableRegions.Array.data[2].terrainType
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: walkableRegions.Array.data[3].terrainType
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: walkableRegions.Array.data[4].terrainType
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: walkableRegions.Array.data[5].terrainType
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: walkableRegions.Array.data[6].terrainType
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: gridFloors.Array.data[0].drawNodeColorGizmos
       value: 0
       objectReference: {fileID: 0}
@@ -2038,8 +2371,32 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
-      propertyPath: walkableRegions.Array.data[1].terrainPenalty
+      propertyPath: walkableRegions.Array.data[0].terrainPenalty
       value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: walkableRegions.Array.data[1].terrainPenalty
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: walkableRegions.Array.data[2].terrainPenalty
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: walkableRegions.Array.data[3].terrainPenalty
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: walkableRegions.Array.data[4].terrainPenalty
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: walkableRegions.Array.data[5].terrainPenalty
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485574979458585344, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
+      propertyPath: walkableRegions.Array.data[6].terrainPenalty
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6166124569379967553, guid: fe20c56a07738684a94bc41dabd65b34, type: 3}
       propertyPath: slopes.Array.data[0].slopeEnd
@@ -2106,7 +2463,8 @@ GameObject:
   - component: {fileID: 850535206243366332}
   - component: {fileID: 2893030600169213542}
   - component: {fileID: 4199171256882144525}
-  m_Layer: 7
+  - component: {fileID: 7675430346064966351}
+  m_Layer: 6
   m_Name: Grass (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2142,6 +2500,23 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.934656, y: 1, z: 1}
   m_Center: {x: 0.03267225, y: -0.000000048257075, z: 0}
+--- !u!114 &7343142116118149452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2282349334940721775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1db8b9447f8d8f94ca1141303e715300, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrainType: 1
+  gridFloorId: 0
+  customSettings:
+    overridePriority: 0
+    overrideTerrainPenalty: 0
 --- !u!65 &7357243446853168656
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2163,6 +2538,23 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7357243446853168657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2340338787056095865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1db8b9447f8d8f94ca1141303e715300, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrainType: 1
+  gridFloorId: 0
+  customSettings:
+    overridePriority: 0
+    overrideTerrainPenalty: 0
 --- !u!1 &7412488387772977914
 GameObject:
   m_ObjectHideFlags: 0
@@ -2173,7 +2565,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5458906563421631575}
   m_Layer: 0
-  m_Name: Terrain
+  m_Name: Terrain (Parent)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2191,7 +2583,8 @@ GameObject:
   - component: {fileID: 2110330255459155959}
   - component: {fileID: 7606752363462982296}
   - component: {fileID: 6021566810016236720}
-  m_Layer: 7
+  - component: {fileID: 7606752363462982297}
+  m_Layer: 6
   m_Name: Grass (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2240,6 +2633,23 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &7606752363462982297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7494420397859511387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1db8b9447f8d8f94ca1141303e715300, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrainType: 4
+  gridFloorId: 0
+  customSettings:
+    overridePriority: 0
+    overrideTerrainPenalty: 0
 --- !u!4 &7675430346064966350
 Transform:
   m_ObjectHideFlags: 0
@@ -2255,6 +2665,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 5458906563421631575}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7675430346064966351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7172008571172004908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1db8b9447f8d8f94ca1141303e715300, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrainType: 4
+  gridFloorId: 0
+  customSettings:
+    overridePriority: 0
+    overrideTerrainPenalty: 0
 --- !u!23 &7693618784029952992
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2297,6 +2724,23 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &7693618784029952993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4051939086052998896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1db8b9447f8d8f94ca1141303e715300, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrainType: 5
+  gridFloorId: 0
+  customSettings:
+    overridePriority: 0
+    overrideTerrainPenalty: 0
 --- !u!1 &7780393732330699541
 GameObject:
   m_ObjectHideFlags: 0
@@ -2309,7 +2753,8 @@ GameObject:
   - component: {fileID: 5043280014141218596}
   - component: {fileID: 8787252041460411086}
   - component: {fileID: 1103108630970253608}
-  m_Layer: 7
+  - component: {fileID: 8787252041460411087}
+  m_Layer: 6
   m_Name: Grass (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2328,7 +2773,8 @@ GameObject:
   - component: {fileID: 7105090403275863441}
   - component: {fileID: 8216276093810950977}
   - component: {fileID: 1113558387000990623}
-  m_Layer: 7
+  - component: {fileID: 8216276093810950978}
+  m_Layer: 6
   m_Name: Grass (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2400,6 +2846,23 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &8216276093810950978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7903348727977479984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1db8b9447f8d8f94ca1141303e715300, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrainType: 4
+  gridFloorId: 0
+  customSettings:
+    overridePriority: 0
+    overrideTerrainPenalty: 0
 --- !u!1 &8257527507488849042
 GameObject:
   m_ObjectHideFlags: 0
@@ -2412,13 +2875,31 @@ GameObject:
   - component: {fileID: 6175162773621130165}
   - component: {fileID: 4190694606885019888}
   - component: {fileID: 1150533339376608311}
-  m_Layer: 7
+  - component: {fileID: 8257527507488849043}
+  m_Layer: 6
   m_Name: Grass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &8257527507488849043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8257527507488849042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1db8b9447f8d8f94ca1141303e715300, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrainType: 4
+  gridFloorId: 0
+  customSettings:
+    overridePriority: 0
+    overrideTerrainPenalty: 0
 --- !u!1 &8507029052735293166
 GameObject:
   m_ObjectHideFlags: 0
@@ -2431,7 +2912,8 @@ GameObject:
   - component: {fileID: 8134457254640679468}
   - component: {fileID: 2269432935049203835}
   - component: {fileID: 8621279926734566982}
-  m_Layer: 9
+  - component: {fileID: 8621279926734566983}
+  m_Layer: 6
   m_Name: Wet Concrete
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2476,6 +2958,23 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8621279926734566983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8507029052735293166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1db8b9447f8d8f94ca1141303e715300, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrainType: 2
+  gridFloorId: 0
+  customSettings:
+    overridePriority: 0
+    overrideTerrainPenalty: 0
 --- !u!33 &8690157611367925176
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -2484,6 +2983,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5540929400206607678}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &8690157611367925177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5540929400206607678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1db8b9447f8d8f94ca1141303e715300, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrainType: 1
+  gridFloorId: 0
+  customSettings:
+    overridePriority: 0
+    overrideTerrainPenalty: 0
 --- !u!23 &8787252041460411086
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2526,6 +3042,23 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &8787252041460411087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7780393732330699541}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1db8b9447f8d8f94ca1141303e715300, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrainType: 4
+  gridFloorId: 1
+  customSettings:
+    overridePriority: 0
+    overrideTerrainPenalty: 0
 --- !u!135 &8946062169112646513
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2559,6 +3092,7 @@ GameObject:
   - component: {fileID: 2439277776719450650}
   - component: {fileID: 896152745485126312}
   - component: {fileID: 1862142942444376495}
+  - component: {fileID: 9012358422165327687}
   m_Layer: 6
   m_Name: wall
   m_TagString: Untagged
@@ -2566,6 +3100,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &9012358422165327687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9012358422165327686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1db8b9447f8d8f94ca1141303e715300, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrainType: 1
+  gridFloorId: 0
+  customSettings:
+    overridePriority: 0
+    overrideTerrainPenalty: 0
 --- !u!1 &9162993083976708241
 GameObject:
   m_ObjectHideFlags: 0
@@ -2578,13 +3129,31 @@ GameObject:
   - component: {fileID: 2536059917846978798}
   - component: {fileID: 6190047231681178039}
   - component: {fileID: 8946062169112646513}
-  m_Layer: 4
+  - component: {fileID: 9162993083976708242}
+  m_Layer: 6
   m_Name: water
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &9162993083976708242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9162993083976708241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1db8b9447f8d8f94ca1141303e715300, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrainType: 3
+  gridFloorId: 0
+  customSettings:
+    overridePriority: 0
+    overrideTerrainPenalty: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -2596,4 +3165,3 @@ SceneRoots:
   - {fileID: 7165461451215624819}
   - {fileID: 4534983895477255994}
   - {fileID: 6751648888322800965}
-  - {fileID: 943372302}

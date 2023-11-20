@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class TerrainType
+public class TerrainLayerType
 {
-    public LayerMask terrainLayer;
+    public TerrainType terrainType = TerrainType.unwalkable;
     public int terrainPenalty;
 }

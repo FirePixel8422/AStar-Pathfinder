@@ -10,7 +10,11 @@ public class AgentCore : MonoBehaviour
     public AgentData agent;
 
     [Header("Percentage speed reduction \n85 = -85% speed on selected terrain")]
-    public TerrainType[] walkableRegions;
+    public TerrainLayerType[] walkableRegions;
+
+    public List<TerrainObject> floorType = new List<TerrainObject>();
+
+    public List<Node> path = new List<Node>();
 
     private int oldTargetSlopeIndex;
     public int goingToSlope;
@@ -71,7 +75,7 @@ public class AgentCore : MonoBehaviour
             pf.FindPath(agentPos, targetPos, agent);
         }
 
-        int terrainIndex = -1;
+        /*int terrainIndex = -1;
         Ray ray = new Ray(transform.position, Vector3.down);
         for (int i = 0; i < walkableRegions.Length; i++)
         {
@@ -85,12 +89,12 @@ public class AgentCore : MonoBehaviour
         if (terrainIndex != -1)
         {
             _moveSpeed = moveSpeed * (100 - walkableRegions[terrainIndex].terrainPenalty) / 100;
-        }
+        }*/
 
         if (path.Count != 0 && Vector3.Distance(targetPos, agentPos) > distToStopMoving)
         {
             Vector3 pathTargetPos = new Vector3(path[0].worldPos.x, 0, path[0].worldPos.z);
-            Vector3 newPos = Vector3.MoveTowards(agentPos, pathTargetPos, _moveSpeed * Time.deltaTime);
+            Vector3 newPos = Vector3.MoveTowards(agentPos, pathTargetPos, /* fix this > "_movSpeed" */moveSpeed * Time.deltaTime);
             transform.position = new Vector3(newPos.x, transform.position.y, newPos.z);
             agentPos = new Vector3(transform.position.x, 0, transform.position.z);
 
@@ -118,14 +122,13 @@ public class AgentCore : MonoBehaviour
             }
         }
     }
-    public List<Node> path = new List<Node>();
 
-    private void OnDrawGizmos()
+    private void OnCollisionEnter(Collision obj)
     {
-        if (!Application.isPlaying)
-        {
-            UnityEditor.EditorApplication.QueuePlayerLoopUpdate();
-            UnityEditor.SceneView.RepaintAll();
-        }
+        floorType.Add(obj.gameObject.GetComponent<TerrainObject>());
+    }
+    private void OnCollisionExit(Collision obj)
+    {
+        floorType.Remove(obj.gameObject.GetComponent<TerrainObject>());
     }
 }
