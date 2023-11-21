@@ -9,22 +9,25 @@ public class AgentCore : MonoBehaviour
     [HideInInspector]
     public AgentData agent;
 
+    public LayerMask walkableObjectLayer;
+
     [Header("Percentage speed reduction \n85 = -85% speed on selected terrain")]
     public TerrainLayerType[] walkableRegions;
 
     public List<Node> path = new List<Node>();
-
-    private int oldTargetSlopeIndex;
-    public int goingToSlope;
-
-    public Vector3 slopeEndPos;
-    public bool slopeTransition;
 
     public TargetInfo target;
     private Vector3 oldTargetPos;
 
     public float moveSpeed = 6;
     public float distToStopMoving = 2;
+
+    private int oldTargetSlopeIndex;
+    private int goingToSlope;
+
+    private Vector3 slopeEndPos;
+    [HideInInspector]
+    public bool slopeTransition;
 
     private void Start()
     {
@@ -37,6 +40,7 @@ public class AgentCore : MonoBehaviour
     {
         if (target == null)
         {
+            Debug.LogWarning("No target: assign or fix with code on: " + gameObject.name);
             return;
         }
         int slopeIndex = agent.slopeIndex;
@@ -73,26 +77,20 @@ public class AgentCore : MonoBehaviour
             pf.FindPath(agentPos, targetPos, agent);
         }
 
-        /*int terrainIndex = -1;
-        Ray ray = new Ray(transform.position, Vector3.down);
-        for (int i = 0; i < walkableRegions.Length; i++)
+        float _moveSpeed = 0;
+        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 2, walkableObjectLayer))
         {
-            if (Physics.Raycast(ray, 2, walkableRegions[i].terrainLayer, QueryTriggerInteraction.Collide))
+            TerrainObject floor = hit.collider.gameObject.GetComponent<TerrainObject>();
+            if (floor != null)
             {
-                terrainIndex = i;
-                break;
+                _moveSpeed = moveSpeed / 100 * (100 - walkableRegions[(int)floor.terrainType].terrainPenalty);
             }
         }
-        float _moveSpeed = moveSpeed;
-        if (terrainIndex != -1)
-        {
-            _moveSpeed = moveSpeed * (100 - walkableRegions[terrainIndex].terrainPenalty) / 100;
-        }*/
 
         if (path.Count != 0 && Vector3.Distance(targetPos, agentPos) > distToStopMoving)
         {
             Vector3 pathTargetPos = new Vector3(path[0].worldPos.x, 0, path[0].worldPos.z);
-            Vector3 newPos = Vector3.MoveTowards(agentPos, pathTargetPos, /* fix this > "_movSpeed" */moveSpeed * Time.deltaTime);
+            Vector3 newPos = Vector3.MoveTowards(agentPos, pathTargetPos, _moveSpeed * Time.deltaTime);
             transform.position = new Vector3(newPos.x, transform.position.y, newPos.z);
             agentPos = new Vector3(transform.position.x, 0, transform.position.z);
 

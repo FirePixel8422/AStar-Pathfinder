@@ -19,10 +19,10 @@ public class GridManager : MonoBehaviour
     public void Init()
     {
         agents = FindObjectsOfType<AgentCore>();
-        CreateGridAsync();
+        CreateGrid();
     }
 
-    public void CreateGridAsync()
+    public void CreateGrid()
     {
         int movementPenalty;
         int layerId;
@@ -33,18 +33,15 @@ public class GridManager : MonoBehaviour
             GridFloor gridFloor = gridFloors[i];
 
             float nodeSize = gridFloor.nodeSize;
-            float halfNodeSize = nodeSize / 2;
 
-            Vector3 gridSize = gridFloor.gridSize;
-
-            gridFloor.gridSizeX = Mathf.RoundToInt(gridSize.x / nodeSize);
-            gridFloor.gridSizeZ = Mathf.RoundToInt(gridSize.z / nodeSize);
+            gridFloor.gridSizeX = Mathf.RoundToInt(gridFloor.gridSize.x / nodeSize);
+            gridFloor.gridSizeZ = Mathf.RoundToInt(gridFloor.gridSize.z / nodeSize);
 
             int gridSizeX = gridFloor.gridSizeX;
             int gridSizeZ = gridFloor.gridSizeZ;
 
             gridFloor.grid = new Node[gridSizeX, gridSizeZ];
-            Vector3 worldBottomLeft = gridFloor.gridPosition - Vector3.right * gridSize.x / 2 - Vector3.forward * gridSize.z / 2;
+            Vector3 worldBottomLeft = gridFloor.gridPosition - Vector3.right * gridFloor.gridSize.x / 2 - Vector3.forward * gridFloor.gridSize.z / 2;
 
 
             for (int x = 0; x < gridSizeX; x++)
@@ -55,7 +52,7 @@ public class GridManager : MonoBehaviour
                     layerId = -10;
                     highestLayerPriority = int.MaxValue;
 
-                    Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * nodeSize + halfNodeSize) + Vector3.forward * (z * nodeSize + halfNodeSize);
+                    Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * nodeSize + nodeSize / 2) + Vector3.forward * (z * nodeSize + nodeSize / 2);
 
                     Collider[] data = Physics.OverlapSphere(worldPoint, nodeSize * 0.75f, walkableObjectLayer);
                     if (data.Length == 0)
@@ -96,25 +93,19 @@ public class GridManager : MonoBehaviour
                         continue;
                     }
 
-
+                    int terrainObjectLayerId = (int)terrainObjects[layerId].terrainType;
                     if (terrainObjects[layerId].terrainType == TerrainType.custom)
                     {
                         gridFloor.grid[x, z] = new Node(true, worldPoint, new int2(x, z), layerId, terrainObjects[layerId].customSettings.overrideTerrainPenalty);
                     }
                     else if (terrainObjects[layerId].terrainType == TerrainType.unwalkable)
                     {
-                        gridFloor.grid[x, z] = new Node(false, worldPoint, new int2(x, z), (int)terrainObjects[layerId].terrainType * 10, 0);
+                        gridFloor.grid[x, z] = new Node(false, worldPoint, new int2(x, z), terrainObjectLayerId * 10, 0);
                     }
                     else
                     {
-                        for (int i2 = 0; i2 < walkableRegions.Length; i2++)
-                        {
-                            if (walkableRegions[i2].terrainType == terrainObjects[layerId].terrainType)
-                            {
-                                movementPenalty = walkableRegions[i2].terrainPenalty;
-                            }
-                        }
-                        gridFloor.grid[x, z] = new Node(true, worldPoint, new int2(x, z), (int)terrainObjects[layerId].terrainType * 10, movementPenalty);
+                        movementPenalty = walkableRegions[terrainObjectLayerId].terrainPenalty;
+                        gridFloor.grid[x, z] = new Node(true, worldPoint, new int2(x, z), terrainObjectLayerId * 10, movementPenalty);
                     }
                 }
             }
@@ -193,31 +184,6 @@ public class GridManager : MonoBehaviour
         {
             return;
         }
-        
-        for (int i = 0; i < gridFloors.Length; i++)
-        {
-            if (gridFloors[i].nodeSize < .25f)
-            {
-                Debug.Log("Not a good idea, to many nodes to draw");
-                gridFloors[i].drawNodeColorGizmos = false;
-                return;
-            }
-            if (gridFloors[i].drawNodeColorGizmos == true)
-            {
-                for (int i2 = 0; i2 < gridFloors[i].grid.GetLength(0); i2++)
-                {
-                    for (int i3 = 0; i3 < gridFloors[i].grid.GetLength(1); i3++)
-                    {
-                        Gizmos.color = new Color(0, 0, 0, 0);
-                        if (gridFloors[i].grid[i2, i3].layerId / 10 != -1)
-                        {
-                            Gizmos.color = nodeLayerColors[gridFloors[i].grid[i2, i3].layerId / 10];
-                        }
-                        Gizmos.DrawCube(gridFloors[i].grid[i2, i3].worldPos, Vector3.one * gridFloors[i].nodeSize * 0.9f);
-                    }
-                }
-            }
-        }
 
         for (int i = 0; i < agents.Length; i++)
         {
@@ -234,6 +200,31 @@ public class GridManager : MonoBehaviour
                 for (int i2 = 0; i2 < agents[i].path.Count; i2++)
                 {
                     Gizmos.DrawCube(agents[i].path[i2].worldPos, Vector3.one * (gridFloors[slopeIndex].nodeSize * 0.9f));
+                }
+            }
+        }
+
+        for (int i = 0; i < gridFloors.Length; i++)
+        {
+            if (gridFloors[i].drawNodeColorGizmos == true)
+            {
+                if (gridFloors[i].MaxSize / gridFloors[i].nodeSize > 160000)
+                {
+                    Debug.LogError("NOT a good idea, to many nodes to draw");
+                    gridFloors[i].drawNodeColorGizmos = false;
+                    return;
+                }
+                for (int i2 = 0; i2 < gridFloors[i].grid.GetLength(0); i2++)
+                {
+                    for (int i3 = 0; i3 < gridFloors[i].grid.GetLength(1); i3++)
+                    {
+                        Gizmos.color = new Color(0, 0, 0, 0);
+                        if (gridFloors[i].grid[i2, i3].layerId / 10 != -1)
+                        {
+                            Gizmos.color = nodeLayerColors[gridFloors[i].grid[i2, i3].layerId / 10];
+                        }
+                        Gizmos.DrawCube(gridFloors[i].grid[i2, i3].worldPos, Vector3.one * gridFloors[i].nodeSize * 0.9f);
+                    }
                 }
             }
         }

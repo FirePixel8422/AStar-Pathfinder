@@ -8,7 +8,6 @@ public class TerrainObject : MonoBehaviour
     public int gridFloorId;
     public CustomSettings customSettings;
 
-
     [System.Serializable]
     public class CustomSettings
     {
