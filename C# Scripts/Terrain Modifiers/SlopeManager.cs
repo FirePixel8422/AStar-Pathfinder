@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class SlopeManager : MonoBehaviour
 {
-    public Slope[] slopes;
+    public SlopeData[] slopes;
 
 
     [System.Serializable]
-    public class Slope
+    public class SlopeData
     {
         public Transform slopeStart, slopeEnd;
         public float heightLevel;

@@ -1680,19 +1680,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2847047930017798727, guid: 963d4260b22509a41ac1957a1cff2fa0, type: 3}
       propertyPath: extraPenalty.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2847047930017798727, guid: 963d4260b22509a41ac1957a1cff2fa0, type: 3}
       propertyPath: terrainlayers.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2847047930017798727, guid: 963d4260b22509a41ac1957a1cff2fa0, type: 3}
       propertyPath: extraPenalty.Array.data[0]
-      value: -180
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 2847047930017798727, guid: 963d4260b22509a41ac1957a1cff2fa0, type: 3}
       propertyPath: terrainlayers.Array.data[0]
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8260075918402167798, guid: 963d4260b22509a41ac1957a1cff2fa0, type: 3}
       propertyPath: m_Name

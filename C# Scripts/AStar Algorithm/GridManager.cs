@@ -208,7 +208,7 @@ public class GridManager : MonoBehaviour
         {
             if (gridFloors[i].drawNodeColorGizmos == true)
             {
-                if (gridFloors[i].MaxSize / gridFloors[i].nodeSize > 160000)
+                if (gridFloors[i].MaxSize / gridFloors[i].nodeSize > 160000) //100x100 size, 0.25 nodeSize = 10000 * 4 * 4
                 {
                     Debug.LogError("NOT a good idea, to many nodes to draw");
                     gridFloors[i].drawNodeColorGizmos = false;
